@@ -2,6 +2,10 @@
 
 class M_komputer extends CI_Model {    
 
+    function getAllKomputers(){
+        return $this->db->query("SELECT tb_inv_komputer.*,tb_pengguna.nama_pengguna FROM tb_inv_komputer LEFT JOIN tb_pengguna ON tb_inv_komputer.id_pengguna=tb_pengguna.id_pengguna ");
+    }
+
     function semua() {        
         $query = $this->db->query("SELECT tb_inv_komputer.id_komputer,tb_inv_komputer.kode_komputer,tb_pengguna.nama_pengguna,tb_departemen.id_dept,
             tb_departemen.nama,tb_departemen.parent,tb_inv_komputer.nama_komputer,tb_inv_komputer.spesifikasi,tb_inv_komputer.serial_number,tb_inv_komputer.kode_lisensi,
@@ -23,7 +27,7 @@ class M_komputer extends CI_Model {
     }
 
     function semua_arsip() {        
-        $query = $this->db->query("SELECT tb_inv_komputer.id_komputer,tb_inv_komputer.kode_komputer,tb_pengguna.nama_pengguna,tb_departemen.id_dept,
+        $query = $this->db->query("SELECT tb_inv_komputer.id_komputer,tb_inv_komputer.no_inventaris,tb_pengguna.nama_pengguna,tb_departemen.id_dept,
             tb_departemen.nama,tb_departemen.parent,tb_inv_komputer.nama_komputer,tb_inv_komputer.spesifikasi,tb_inv_komputer.serial_number,tb_inv_komputer.kode_lisensi,
             tb_inv_komputer.network,tb_inv_komputer.tgl_inv,tb_inv_komputer.tgl_inv,tb_inv_komputer.status,tb_inv_komputer.note,tb_inv_komputer.gid 
             FROM tb_inv_komputer INNER JOIN tb_pengguna ON tb_pengguna.id_pengguna = tb_inv_komputer.id_pengguna 
@@ -41,17 +45,15 @@ class M_komputer extends CI_Model {
         return $query;
     }
     function get_inv($id) {        
-        $query = $this->db->query("SELECT tb_inv_komputer.id_komputer,tb_inv_komputer.tipe,tb_inv_komputer.kode_komputer,tb_inv_komputer.id_pengguna,tb_pengguna.nama_pengguna,tb_departemen.id_dept,tb_departemen.nama,tb_departemen.parent,tb_inv_komputer.nama_komputer,tb_inv_komputer.spesifikasi,tb_inv_komputer.serial_number,tb_inv_komputer.kode_lisensi,tb_inv_komputer.network,tb_inv_komputer.tgl_inv,tb_inv_komputer.tgl_garansi,tb_inv_komputer.harga_beli,
-        tb_inv_komputer.status,tb_inv_komputer.note,tb_inv_komputer.gid,tb_inv_komputer.aset_hrd,tb_cabang.namacabang,tb_lisensi.key_lisensi,tb_lisensi.tgl_habis,tb_lisensi.id_lisensi
-            FROM tb_inv_komputer INNER JOIN tb_pengguna ON tb_pengguna.id_pengguna = tb_inv_komputer.id_pengguna 
-            INNER JOIN tb_cabang ON tb_cabang.id_cabang = tb_pengguna.id_cabang
-            INNER JOIN tb_lisensi ON tb_lisensi.kode_lisensi = tb_inv_komputer.kode_lisensi
-            INNER JOIN tb_departemen ON tb_departemen.id_dept = tb_pengguna.id_dept WHERE tb_inv_komputer.kode_komputer ='$id' ");
+        $query = $this->db->query("SELECT *
+            FROM tb_inv_komputer LEFT JOIN tb_pengguna ON tb_pengguna.id_pengguna = tb_inv_komputer.id_pengguna 
+            LEFT JOIN tb_lisensi ON tb_lisensi.kode_lisensi = tb_inv_komputer.kode_lisensi
+             WHERE tb_inv_komputer.no_inventaris ='$id' ");
         return $query;
     }
 
     function getkode($id) {
-        $kode = array('kode_komputer' => $id);
+        $kode = array('no_inventaris' => $id);
         return $this->db->get_where('tb_inv_komputer', $kode);
     }
    
@@ -87,7 +89,7 @@ class M_komputer extends CI_Model {
     }
 
     function update($kode,$data) {        
-        $this->db->where('kode_komputer', $kode);
+        $this->db->where('no_inventaris', $kode);
         $this->db->update('tb_inv_komputer', $data);
     }
 

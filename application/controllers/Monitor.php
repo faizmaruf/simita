@@ -4,7 +4,9 @@ class Monitor extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_monitor','m_laptop','m_masuk','m_maintenance'));
+        $this->load->model(array('m_monitor','m_laptop','m_masuk','m_maintenance','m_kode_inventory'));
+        $this->load->helper('date');
+
         chek_session();
     }
 	public function index() {
@@ -61,26 +63,38 @@ class Monitor extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $gid=$this->session->userdata('gid');           
             $data = array(
-                'kode_monitor' => $this->m_monitor->kdotomatis(),
+                'no_inventaris' => $this->input->post('no_inventaris'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'jenis_monitor' => $this->input->post('jenis'),
                 'spesifikasi' => $this->input->post('spek'),               
                 'tgl_inv' =>$this->input->post('tgl_inv'),
                 'harga_beli' =>$this->input->post('harga'),
-                'gid' => $gid
+                'gid' => $gid,
+                'createddate' =>mdate('%Y-%m-%d %H:%i:%s', now()),
+                'createby'=>$this->session->userdata('username'),
             );
             $data2=array(
-                'no_inventaris' => $this->m_monitor->kdotomatis(),
+                'no_inventaris' => $this->input->post('no_inventaris'),
 				'id_pengguna_awal' => $this->input->post('pengguna'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'tgl_update'=>date('Y-m-d H:i:s'),
                 'admin'=>$this->session->userdata('nama'),
                 'note'=>'Inventory Baru',
                 );
-            $this->m_laptop->simpan_history($data2);
+            $user = $this->session->userdata('username');
+            $no_inventaris  = $this->input->post('no_inventaris');
             $this->m_monitor->simpan($data);
-            redirect('monitor');
+            $this->m_laptop->simpan_history($data2);
+            $this->m_kode_inventory->updateTableInvKode($no_inventaris,'Monitor',$user);
+            $this->session->set_flashdata('result_tambah', '<br><div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Data monitor berhasil ditambah !</div>');
+            
+            redirect('archived');
         } else {  
+            $user = $this->session->userdata('username');
+            $data['no_inventaris'] = $this->m_kode_inventory->createNewCode('Monitor',mdate('%Y-%m-%d %H:%i:%s', now()),$user); 
+            // var_dump($data['no_inventaris']);
+            
+            // die;
             $data['pengguna'] = $this->m_monitor->getpengguna()->result();           
             $this->template->display('monitor/tambah',$data);
         }
@@ -212,7 +226,13 @@ class Monitor extends CI_Controller {
     }  
 
     function detail() { 
-        $id = $this->uri->segment(3);                                           
+        $value = $this->uri->segment(3);
+        $param1 = $this->uri->segment(4);
+        $param2 = $this->uri->segment(5);
+        $bulan = $this->uri->segment(6);
+        $tahun = $this->uri->segment(7);
+        $strings = array($value,$param1,$param2,$bulan,$tahun);
+        $id = implode('/', $strings);                                      
         $data['recordall'] = $this->m_monitor->get_inv($id)->row_array();
         $data['record'] = $this->m_monitor->getkode($id)->row_array();
         $data['service']=$this->m_laptop->get_service($id)->result();
@@ -223,6 +243,7 @@ class Monitor extends CI_Controller {
     function delete($kode) {
         if ($this->session->userdata('role')=='Administrator'){
             $this->m_monitor->hapus($kode);
+            $this->session->set_flashdata('result_hapus', '<br><div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Anda berhasil menghapus data monitor!</div>');
             redirect('monitor');
         }else{
             $this->session->set_flashdata('result_hapus', '<br><p class="text-red">Maaf Anda tidak di ijinkan menghapus data ini !</p>');

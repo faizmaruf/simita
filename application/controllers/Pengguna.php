@@ -7,42 +7,40 @@ class Pengguna extends CI_Controller {
         $this->load->model(array('m_pengguna','m_departemen'));
         // load helper Date
         $this->load->helper('date');
+        $this->load->library('form_validation');
         chek_session();
     }
 	public function index() {       
-        //$data['record'] = $this->m_pengguna->semua()->result();         
-        $this->template->display('pengguna/view');       
+        $data['record'] = $this->m_pengguna->semua()->result();       
+        // var_dump($data);
+        // die;  
+        $this->template->display('pengguna/view',$data);       
     }
     
     function view_data(){        
         if ($this->session->userdata('role')=='Administrator'){
-            $ambildata=$this->m_pengguna->semua()->result();
+            $ambildata=$this->m_pengguna->semua()->result_array();
+            
         }else{
-            $ambildata=$this->m_pengguna->semuagid()->result();
+            $ambildata=$this->m_pengguna->semuagid()->result_array();
         } 
         $no=1;
         foreach($ambildata as $r) {  
-        $dept=$this->db->get_where('tb_departemen',array('id_dept'=>$r->parent))->row_array();
-            if($r->parent==0){
-                    $deptnama=$r->nama;
-            }else{
-                    $deptnama=$dept['nama'];
-            } 
-            $query[] = array(
+            $dept=  $this->db->get_where('tb_departemen',array('id_dept'=>$r['id_dept']))->row_array();
+            $jabatan=  $this->db->get_where('tb_jabatan',array('id_jabatan'=>$r['id_jabatan']))->row_array();
+      
+            $data[] = array(
                 'no'=>$no++,
-                'id_pengguna'=>$r->id_pengguna,
-                'nik'=>'<center>'.$r->nik.'</center>',
-                'nama_pengguna'=>$r->nama_pengguna,
-                'dept'=>$deptnama, 
-                'subdept'=>$r->nama, 
-                'nama_jabatan'=>$r->nama_jabatan, 
-                'namacabang'=>$r->namacabang,
-                'ruang_kantor'=>$r->ruang_kantor, 
-                'edit'=>''.anchor('pengguna/edit/' . $r->id_pengguna, '<i class="btn btn-info btn-sm glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit"></i>') .'',
-                'delete'=>''.anchor('pengguna/delete/' . $r->id_pengguna, '<i class="btn-sm btn-info glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")).'',                
+                'id_pengguna'=>$r['id_pengguna'],
+                'nama_pengguna'=>$r['nama_pengguna'],
+                'dept'=>$dept['nama'],
+                'nama_jabatan'=>$jabatan['nama_jabatan'], 
+                'edit'=>''.anchor('pengguna/edit/' . $r['id_pengguna'], '<i class="btn btn-info btn-sm glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit"></i>') .'',
+                'delete'=>''.anchor('pengguna/delete/' . $r['id_pengguna'], '<i class="btn-sm btn-info glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")).'',                
             );
         }        
-        $result=array('data'=>$query);
+        $result=array('aaData'=>$data);
+        // var_dump($result);
         echo  json_encode($result);
     }	
 
@@ -59,25 +57,30 @@ class Pengguna extends CI_Controller {
 
     function add() {         
         $this->form_validation->set_message('is_unique', '<b>%s Sudah Terdaftar dalam database</b>');
-        $this->form_validation->set_rules('nik', 'NIK Karyawan', 'trim|required|is_unique[tb_pengguna.nik]');     
-        //$this->_set_rules();
+        
+        // $this->form_validation->set_rules('nik', 'NIK Karyawan', 'trim|required|is_unique[tb_pengguna.nik]');     
+        $this->_set_rules();
         if ($this->form_validation->run() == true) {
+            
             $data = array(
                 'id_pengguna' => $this->m_pengguna->kdotomatis(),
-                'nik' => $this->input->post('nik'),
+                // 'nik' => 111112,
                 'nama_pengguna' => $this->input->post('pengguna'),
                 'id_jabatan' => $this->input->post('jabatan'),
-                'id_cabang' => $this->input->post('cabang'),
-                'id_dept' => $this->input->post('subdept'),
+                // 'id_dept' => $this->input->post('subdept'),
+                'id_dept' => 40,
                 'createby' => $this->session->userdata('username'),
                 'createdate' =>mdate('%Y-%m-%d %H:%i:%s', now()),
                 'ruang_kantor' => $this->input->post('kantor')                
             );
+            
+            
             $this->m_pengguna->simpan($data);
             redirect('pengguna');
         } else {  
+            
             $data['jabatan'] = $this->m_pengguna->getjabatan()->result(); 
-            $data['cabang'] = $this->m_pengguna->getcabang()->result();
+            
             $data['departemen'] = $this->m_pengguna->getdepartemengid()->result();             
             $this->template->display('pengguna/tambah', $data);
         }
@@ -102,10 +105,10 @@ class Pengguna extends CI_Controller {
             $this->_set_rules();
             if ($this->form_validation->run() == true) {
                 $data = array(                
-                'nik' => $this->input->post('nik'),
+                    
                 'nama_pengguna' => $this->input->post('pengguna'),
                 'id_jabatan' => $this->input->post('jabatan'),
-                'id_cabang' => $this->input->post('cabang'),
+                
                 'id_dept' => $this->input->post('subdept'),
                 'ruang_kantor' => $this->input->post('kantor'));
                 $kode=$this->input->post('kode');
@@ -114,13 +117,13 @@ class Pengguna extends CI_Controller {
             }else {
                 $id = $this->input->post('kode');
                 $data['jabatan'] = $this->m_pengguna->getjabatan()->result(); 
-                $data['cabang'] = $this->m_pengguna->getcabang()->result();                                                      
+                                                                   
                 $data['record'] = $this->m_pengguna->getpengguna($id)->row_array();
             } 
            }else{ 
                 $id = $this->uri->segment(3);               
                 $data['jabatan'] = $this->m_pengguna->getjabatan()->result();  
-                $data['cabang'] = $this->m_pengguna->getcabang()->result();                                        
+                                                      
                 $data['record'] = $this->m_pengguna->getpengguna($id)->row_array();
                 $this->template->display('pengguna/edit', $data);
             }
@@ -131,10 +134,8 @@ class Pengguna extends CI_Controller {
     }
 
     function _set_rules() {
-        $this->form_validation->set_rules('pengguna', 'Nama Pengguna', 'required');
-        $this->form_validation->set_rules('nik', 'NIK', 'required');
+        $this->form_validation->set_rules('pengguna', 'Nama Pengguna', 'required');  
         $this->form_validation->set_rules('jabatan', 'Jabatan', 'required');
-        $this->form_validation->set_rules('cabang', 'cabang', 'required');
         $this->form_validation->set_rules('subdept', 'Sub. Departemen', 'required');
        
     }

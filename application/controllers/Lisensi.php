@@ -53,7 +53,7 @@ class Lisensi extends CI_Controller {
                 'kode_lisensi' => $this->m_lisensi->kdotomatis(),
                 'id_supplier' => $this->input->post('id_supplier'),
                 'jenis_lisensi' => $this->input->post('jenis_lisensi'),
-                'id_cabang' => $this->input->post('id_cabang'),
+                
                 'key_lisensi' => $this->input->post('key_lisensi'),
                 'tgl_pembelian' => $this->input->post('tgl_pembelian'),
                 'tgl_habis' => $this->input->post('tgl_habis'),
@@ -67,7 +67,7 @@ class Lisensi extends CI_Controller {
             redirect('lisensi');
         } else {           
         	$data['supplier'] = $this->m_lisensi->getsupplier()->result(); 
-            $data['cabang'] = $this->m_lisensi->getcabang()->result();
+            
             $this->template->display('lisensi/tambah',$data);
         }
     }
@@ -125,7 +125,6 @@ class Lisensi extends CI_Controller {
     function _set_rules() {
         $this->form_validation->set_rules('id_supplier', 'Nama Supplier', 'required');
         $this->form_validation->set_rules('jenis_lisensi', 'Jenis Lisensi', 'required');
-        $this->form_validation->set_rules('id_cabang', 'Cabang', 'required');
         $this->form_validation->set_rules('key_lisensi', 'Jenis Lisensi', 'required');
         $this->form_validation->set_rules('tgl_pembelian', 'Tanggal Pembelian', 'required');
         $this->form_validation->set_rules('tgl_habis', 'Tanggal Masa Berlaku', 'required');

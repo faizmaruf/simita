@@ -42,6 +42,12 @@
                             <?php echo form_error('pengguna', '<div class="text-red">', '</div>'); ?>                           
                         </div>    
                         <div class="form-group">
+                            <label for="example">No Inventaris</label>
+                            <input type="text" autocomplete="off" id="no_inventaris" name="no_inventaris" class="form-control " readonly required oninvalid="setCustomValidity('NoInventaris Wajib Diisi !')"
+                                   oninput="setCustomValidity('')" placeholder="<?php echo $no_inventaris ?>"  value="<?php echo $no_inventaris ?>"  >
+                                   <?php echo form_error('no_inventaris', '<div class="text-red">', '</div>'); ?>
+                        </div>  
+                        <div class="form-group">
                             <label>Jenis Monitor</label>
                             <select name="jenis" class="form-control " >
                                 <option value='LED'>LED</option>

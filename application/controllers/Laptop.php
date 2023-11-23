@@ -4,7 +4,7 @@ class Laptop extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_laptop','m_masuk','m_barang','m_maintenance'));
+        $this->load->model(array('m_laptop','m_masuk','m_barang','m_maintenance','m_kode_inventory'));
         // load helper Date
         $this->load->helper('date');
         chek_session();
@@ -22,6 +22,8 @@ class Laptop extends CI_Controller {
         }        
         $no=1;
         foreach($ambildata as $r) {  
+            // var_dump($r);
+            // die;
         $dept=$this->db->get_where('tb_departemen',array('id_dept'=>$r->parent))->row_array();
             if($r->parent==0){
                     $deptnama=$r->nama;
@@ -39,7 +41,8 @@ class Laptop extends CI_Controller {
 			}
             $query[] = array(
                 'no'=>$no++,
-                'kode_laptop'=>$r->kode_laptop,
+                // 'kode_laptop'=>$r->kode_laptop,
+                'no_inventaris'=>$r->no_inventaris,
                 'nama_pengguna'=>$r->nama_pengguna, 
                 'dept'=>$deptnama, 
                 'subdept'=>$r->nama,         
@@ -47,25 +50,28 @@ class Laptop extends CI_Controller {
                 'nama_laptop'=>$r->nama_laptop, 
                 'spesifikasi'=>$r->spesifikasi, 
                 'sn'=>$r->serial_number, 
-                'ip'=>$r->network, 
-                'aset_hrd'=>$r->aset_hrd,
+                'ip'=>$r->network,   
                 'status'=>$status, 
                 'view'=>anchor('laptop/detail/' . $r->kode_laptop, '<i class="btn btn-info btn-sm fa fa-eye" data-toggle="tooltip" title="View Detail"></i>'),
-                'delete'=>anchor('laptop/delete/' . $r->id_laptop, '<i class="btn-sm btn-danger glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")),
+                'delete'=>anchor('laptop/delete/' . $r->id_laptop, '<i class="btn btn-danger btn-sm glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")),
             );
         }        
         $result=array('data'=>$query);
         echo  json_encode($result);
     }   
 
-    function add() {              
+    function add() {
+          
         $this->_set_rules(); 
         //$this->form_validation->set_message('is_unique', '%s Sudah Ada');
         //$this->form_validation->set_rules('no_inv', 'No. Inventaris', 'trim|required|is_unique[tb_inv_laptop.kode_laptop]');       
         if ($this->form_validation->run() == true) {
+
+            // var_dump('testing') ;
+            // die;          
             $gid=$this->session->userdata('gid');           
             $data = array(
-                'kode_laptop' => $this->m_laptop->kdotomatis(),
+                'no_inventaris' => $this->input->post('no_inventaris'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'nama_laptop' => $this->input->post('merek'),
                 'tipe_laptop' => $this->input->post('tipe_laptop'),
@@ -73,7 +79,6 @@ class Laptop extends CI_Controller {
                 'serial_number' => $this->input->post('sn'),
                 'kode_lisensi' => $this->input->post('kode_lisensi'),
                 'network' => $this->input->post('ip'),
-                'aset_hrd' => $this->input->post('aset_hrd'),
                 'tgl_inv' =>$this->input->post('tgl_inv'),
                 'tgl_garansi' =>$this->input->post('tgl_garansi'),
                 'harga_beli' =>$this->input->post('harga'),
@@ -81,18 +86,27 @@ class Laptop extends CI_Controller {
                 'createby'=>$this->session->userdata('username'),
                 'gid' => $gid
             );
+           
             $data2=array(
-                'no_inventaris' => $this->m_laptop->kdotomatis(),
+                'no_inventaris' => $this->input->post('no_inventaris'),
 				'id_pengguna_awal' => $this->input->post('pengguna'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'tgl_update'=>date('Y-m-d H:i:s'),
                 'admin'=>$this->session->userdata('nama'),
                 'note'=>'Inventory Baru',
                 );
+                
+            $user = $this->session->userdata('username');
+            $no_inventaris  = $this->input->post('no_inventaris');
             $this->m_laptop->simpan($data);
             $this->m_laptop->simpan_history($data2);
-            redirect('laptop');
-        } else {              
+            $this->m_kode_inventory->updateTableInvKode($no_inventaris,'Laptop',$user);
+            $this->session->set_flashdata('result_tambah', '<br><div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Data laptop berhasil ditambah !</div>');
+
+            redirect('archived');
+        } else {   
+            $user = $this->session->userdata('username');
+            $data['no_inventaris'] = $this->m_kode_inventory->createNewCode('Laptop',mdate('%Y-%m-%d %H:%i:%s', now()),$user);           
             $data['pengguna'] = $this->m_laptop->getpenggunagid()->result();        
             $data['lisensi'] = $this->m_laptop->getlisensi()->result();   
             $data['merek'] = $this->m_laptop->getmerk()->result();
@@ -197,9 +211,16 @@ class Laptop extends CI_Controller {
     //}
 
     function detail() { 
-        $id = $this->uri->segment(3);                                           
+        $value = $this->uri->segment(3);
+        $param1 = $this->uri->segment(4);
+        $param2 = $this->uri->segment(5);
+        $bulan = $this->uri->segment(6);
+        $tahun = $this->uri->segment(7);
+        $strings = array($value,$param1,$param2,$bulan,$tahun);
+        $id = implode('/', $strings);
         $data['recordall'] = $this->m_laptop->getall($id)->row_array();
         $data['record'] = $this->m_laptop->getkode($id)->row_array();
+                                                
         $data['service']=$this->m_laptop->get_service($id)->result();
         $data['history']=$this->m_laptop->get_history($id)->result();
         $this->template->display('laptop/detail', $data);            
@@ -289,10 +310,11 @@ class Laptop extends CI_Controller {
     function delete($kode) {
         if ($this->session->userdata('role')=='Administrator'){
             $this->m_laptop->hapus($kode); 
-            redirect('laptop'); 
+            $this->session->set_flashdata('result_hapus', '<br><div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Anda berhasil menghapus data laptop!</div>');
+            redirect('archived'); 
         }else{
             $this->session->set_flashdata('result_hapus', '<br><div class="alert alert-danger">Anda tidak memiliki akses untuk menghapus data !</div>');
-            redirect('laptop');
+            redirect('archived');
         }       
     }
     function _set_rules() {
@@ -383,7 +405,7 @@ class Laptop extends CI_Controller {
     foreach($laptop as $data){ // Lakukan looping pada variabel
       $excel->setActiveSheetIndex(0)->setCellValue('A'.$numrow, $no);
       $excel->setActiveSheetIndex(0)->setCellValue('B'.$numrow, $data->kode_laptop);
-      $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->aset_hrd);
+      $excel->setActiveSheetIndex(0)->setCellValue('C'.$numrow, $data->no_inventaris);
       $excel->setActiveSheetIndex(0)->setCellValue('D'.$numrow, $data->nama_pengguna);
       $excel->setActiveSheetIndex(0)->setCellValue('E'.$numrow, $data->namacabang);
       $excel->setActiveSheetIndex(0)->setCellValue('F'.$numrow, $data->nama_laptop);

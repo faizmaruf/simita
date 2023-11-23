@@ -36,15 +36,12 @@
             }
             ],
         "ajax": "<?php echo base_url('pengguna/view_data');?>",
-        "aoColumns": [
+        "columns": [
                 { "mData": "no" },
                 { "mData": "id_pengguna" },
-                { "mData": "nik" },
                 { "mData": "nama_pengguna" },                           
                 { "mData": "dept" },
-                { "mData": "subdept" },
-                { "mData": "nama_jabatan" },                           
-                { "mData": "namacabang" },
+                { "mData": "nama_jabatan" },
                 { "mData": "edit" },
                 { "mData": "delete" },
                 ]
@@ -66,12 +63,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Kode Pengguna</th>
-                                <th>NIK</th>
                                 <th>Nama</th>                                                                
                                 <th>Departemen</th>
-                                <th>Sub. Dept</th>
-                                <th>Jabatan</th> 
-                                <th>Cabang</th>                             
+                                <th>Jabatan</th>                              
                                 <th>Edit</th>   
                                 <th>Delete</th>                                 
                             </tr>

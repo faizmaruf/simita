@@ -28,12 +28,12 @@
             ],
         "ajax": "<?php echo base_url('archived/view_laptop');?>",
         "columns": [
-                { "mData": "no" },
-                { "width":"12%","mData": "kode_laptop" },
+                 { "mData": "no" },
+                { "width":"12%","mData": "no_inventaris" },
                 { "mData": "nama_pengguna" },
-                { "mData": "dept" },  
-                { "mData": "subdept" },                
-                { "mData": "nama_laptop" },                           
+                // { "mData": "dept" },  
+                // { "mData": "subdept" },                
+                { "mData": "tipe_laptop" },                           
                 { "width":"20%","mData": "spesifikasi" },                          
                 { "mData": "status" },
                 { "mData": "view" },
@@ -70,11 +70,11 @@
         "ajax": "<?php echo base_url('archived/view_komputer');?>",
         "deferLoading": 57,
         "columns": [
-                { "mData": "no" },
-                { "width":"12%","mData": "kode_komputer" },
+                 { "mData": "no" },
+                { "width":"12%","mData": "no_inventaris" },
                 { "mData": "nama_pengguna" },
-                { "mData": "dept" },  
-                { "mData": "subdept" },                
+                // // { "mData": "dept" },  
+                // // { "mData": "subdept" },                
                 { "mData": "nama_komputer" },                           
                 { "width":"20%","mData": "spesifikasi" },                           
                 { "mData": "status" },
@@ -111,10 +111,10 @@
         "ajax": "<?php echo base_url('archived/view_monitor');?>",
         "columns": [
                 { "mData": "no" },
-                { "width":"12%","mData": "kode_monitor" },
+                { "width":"12%","mData": "no_inventaris" },
                 { "mData": "nama_pengguna" },
-                { "mData": "dept" },  
-                { "mData": "subdept" },                
+                // { "mData": "dept" },  
+                // { "mData": "subdept" },                
                 { "mData": "jenis_monitor" },                           
                 { "width":"20%","mData": "spesifikasi" },                        
                 { "mData": "status" },
@@ -151,10 +151,8 @@
         "ajax": "<?php echo base_url('archived/view_printer');?>",
         "columns": [
                 { "mData": "no" },
-                { "width":"12%","mData": "kode_printer" },
-                { "mData": "nama_pengguna" },
-                { "mData": "dept" },  
-                { "mData": "subdept" },                
+                { "width":"12%","mData": "no_inventaris" },
+                { "mData": "nama_pengguna" },               
                 { "mData": "jenis_printer" },                           
                 { "width":"20%","mData": "spesifikasi" },                        
                 { "mData": "status" },
@@ -191,8 +189,8 @@
         "ajax": "<?php echo base_url('archived/view_device');?>",
         "columns": [
                 { "mData": "no" },
-                { "width":"12%","mData": "kode_network" },                             
-                { "mData": "jenis_network" },                           
+                { "width":"12%","mData": "no_inventaris" },                             
+                { "mData": "jenis_device" },                           
                 { "width":"20%","mData": "spesifikasi" }, 
                 { "mData": "lokasi" },                        
                 { "mData": "status" },
@@ -217,6 +215,16 @@
         <!-- left column -->
         <div class="col-md-12">
             <!-- general form elements -->
+                <?php
+                        if (  $this->session->flashdata('result_hapus')) {
+                                    ?>
+                            <?php echo $this->session->flashdata('result_hapus'); ?>
+                          <?php } ?>
+                        <?php
+                        if (  $this->session->flashdata('result_tambah')) {
+                                    ?>
+                            <?php echo $this->session->flashdata('result_tambah'); ?>
+                          <?php } ?>
             <div class="box box-primary">
                 <div class="box-header">   
                     <ul class="nav nav-tabs">
@@ -229,6 +237,11 @@
                     </ul>
                     <div class="tab-content">
                       <div class="tab-pane active" id="tab_1">
+                         <div class='box-header with-border'>
+                            <h3 class='box-title'><a href="<?php echo base_url('laptop/add'); ?>" class="btn btn-primary btn-small">
+                                    <i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                            </h3>
+                        </div>
                         <div class="col-md-12"> 
                           <div class="box-body table-responsive">                       
                             <table id="tb-laptop" class="table table-bordered table-striped" cellspacing="0" width="100%">
@@ -237,8 +250,8 @@
                                       <th>No.</th>
                                       <th>No Inventaris</th>
                                       <th>Nama Pengguna</th>
-                                      <th>Departemen</th>
-                                      <th>Sub.Dept</th>                                           
+                                      <!-- <th>Departemen</th>
+                                      <th>Sub.Dept</th>                                            -->
                                       <th>Nama Laptop</th>
                                       <th>Spesifikasi</th>                                 
                                       <th>Status</th>                           
@@ -254,6 +267,11 @@
                         </div>
                       </div>
                       <div class="tab-pane" id="tab_2">
+                        <div class='box-header with-border'>
+                            <h3 class='box-title'><a href="<?php echo base_url('komputer/add'); ?>" class="btn btn-primary btn-small">
+                                    <i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                            </h3>
+                        </div>
                         <div class="col-md-12">
                           <div class="box-body table-responsive">
                             <table id="tb-komputer" class="table table-bordered table-striped" cellspacing="0" width="100%">
@@ -262,9 +280,9 @@
                                         <th>No.</th>
                                         <th>No Inventaris</th>
                                         <th>Nama Pengguna</th>
-                                        <th>Departemen</th>
-                                        <th>Sub.Dept</th>                                           
-                                        <th>Manufacture</th>
+                                        <!-- <th>Departemen</th>
+                                        <th>Sub.Dept</th>                                            -->
+                                        <th>Nama Komputer</th>
                                         <th>Spesifikasi</th>                              
                                         <th>Status</th>                           
                                         <th>Detail</th>   
@@ -279,6 +297,11 @@
                         </div>
                       </div>
                       <div class="tab-pane" id="tab_3">
+                         <div class='box-header with-border'>
+                            <h3 class='box-title'><a href="<?php echo base_url('monitor/add'); ?>" class="btn btn-primary btn-small">
+                                    <i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                            </h3>
+                        </div>
                         <div class="col-md-12 "> 
                           <div class="box-body table-responsive">
                             <table id="tb-monitor" class="table table-bordered table-striped" cellspacing="0" width="100%">
@@ -287,8 +310,8 @@
                                       <th>No.</th>
                                       <th>No Inventaris</th>
                                       <th>Nama Pengguna</th>
-                                      <th>Departemen</th>
-                                      <th>Sub.Dept</th>                                            
+                                      <!-- <th>Departemen</th>
+                                      <th>Sub.Dept</th>                                             -->
                                       <th>Jenis Monitor</th>
                                       <th>Spesifikasi</th>                               
                                       <th>Status</th>                           
@@ -304,6 +327,11 @@
                         </div>
                       </div>
                       <div class="tab-pane" id="tab_4">
+                        <div class='box-header with-border'>
+                            <h3 class='box-title'><a href="<?php echo base_url('printer/add'); ?>" class="btn btn-primary btn-small">
+                                    <i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                            </h3>
+                        </div>
                         <div class="col-md-12 ">  
                           <div class="box-body table-responsive">
                             <table id="tb-printer" class="table table-bordered table-striped" cellspacing="0" width="100%">
@@ -312,8 +340,8 @@
                                       <th>No.</th>
                                       <th>No Inventaris</th>
                                       <th>Nama Pengguna</th>
-                                      <th>Departemen</th>
-                                      <th>Sub.Dept</th>                                             
+                                      <!-- <th>Departemen</th>
+                                      <th>Sub.Dept</th>                                              -->
                                       <th>Jenis printer</th>
                                       <th>Spesifikasi</th>                               
                                       <th>Status</th>                           
@@ -329,6 +357,11 @@
                         </div>
                       </div>
                       <div class="tab-pane" id="tab_5">
+                        <div class='box-header with-border'>
+                            <h3 class='box-title'><a href="<?php echo base_url('device/add'); ?>" class="btn btn-primary btn-small">
+                                    <i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                            </h3>
+                        </div>
                         <div class="col-md-12 ">  
                           <div class="box-body table-responsive">
                             <table id="tb-device" class="table table-bordered table-striped" cellspacing="0" width="100%">

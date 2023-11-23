@@ -28,10 +28,9 @@
                                 <th>No.</th>
                                 <th>Nama Supplier</th>
                                 <th>Alamat </th>
-                                <th>Nama Sales</th>
+                                <th>Nama PIC/Sales</th>
                                 <th>Telepon</th>   
-                                <th>NPWP</th>
-                                <th>KTP</th>                                                           
+                                
                                 <th>TOOLS</th>                                  
                             </tr>
                         </thead>
@@ -45,9 +44,8 @@
 							   <td>".$r->alamat_supplier."</td>
                                <td>".$r->nama_pic."</td>
 							   <td>".$r->telepon."</td>		
-                               <td>".$r->nomor_npwp."</td>
-                               <td>".$r->nomor_ktp."</td>				   					   
-							   <td>" . anchor('supplier/edit/' . $r->id_supplier, '<i class="btn btn-info btn-sm glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit"></i>') . " " . anchor('supplier/delete/' . $r->id_supplier, '<i class="btn-sm btn-info glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")) . "</td>
+                               			   					   
+							   <td>" . anchor('supplier/edit/' . $r->id_supplier, '<i class="btn btn-info btn-sm glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit"></i>') . " " . anchor('supplier/delete/' . $r->id_supplier, '<i class="btn btn-sm btn-info glyphicon glyphicon-trash" data-toggle="tooltip" title="Delete"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")) . "</td>
                                </tr>";
 						   $no++;
 					   }

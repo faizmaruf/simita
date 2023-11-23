@@ -15,7 +15,6 @@ CKEDITOR.inline('editable');
 </script>
   <script>
         jQuery(function($){
-            $("#asethrd").mask("aaaa99/9/9/9/999/9");
             $("#ip").mask("999.999.999.999");
         });
   
@@ -44,7 +43,7 @@ CKEDITOR.inline('editable');
                     <div class="box-body">                        
                         <div class="form-group">
                             <label>Pengguna Laptop</label>
-                            <select name="pengguna" class="combobox form-control" id="dept">
+                            <select name="pengguna" class="combobox form-control" id="dept" autocomplete="off">
                             <option value='' selected="selected">- Pilih Pengguna Laptop -</option>
                                 <?php
                                 if (!empty($pengguna)) {
@@ -58,10 +57,10 @@ CKEDITOR.inline('editable');
                         </div>    
                     
                        <div class="form-group">
-                            <label for="example">Nomor Aset HRD</label>
-                            <input type="text" autocomplete="off" id="asethrd" name="aset_hrd" class="form-control" required oninvalid="setCustomValidity('Nomor Aset Wajib Diisi !')"
-                                   oninput="setCustomValidity('')" placeholder="BITJ01/0/1/2/345/6" >
-                                   <?php echo form_error('aset_hrd', '<div class="text-red">', '</div>'); ?>
+                            <label for="example">No Inventaris</label>
+                            <input type="text" autocomplete="off" id="no_inventaris" name="no_inventaris" class="form-control " readonly required oninvalid="setCustomValidity('NoInventaris Wajib Diisi !')"
+                                   oninput="setCustomValidity('')" placeholder="<?php echo $no_inventaris ?>"  value="<?php echo $no_inventaris ?>"  >
+                                   <?php echo form_error('no_inventaris', '<div class="text-red">', '</div>'); ?>
                         </div>                        
                         <div class="form-group">
                             <label>Brand</label>
@@ -78,7 +77,7 @@ CKEDITOR.inline('editable');
                         </div>
                         <div class="form-group">
                             <label>Tipe Laptop</label>
-                            <select name="tipe_laptop" class="combobox form-control" id="tipe_laptop"> 
+                            <select name="tipe_laptop" class="combobox form-control" id="tipe_laptop" required > 
                                 <option value="">- Pilih Tipe Laptop -</option>                               
                                     <?php
                                     if (!empty($tipe_laptop)) {
@@ -156,7 +155,7 @@ CKEDITOR.inline('editable');
                         </div><!-- /.form group -->        
                         <div class="box-footer">
                         <button type="submit" name="submit" class="btn btn-primary"><i class="glyphicon glyphicon-hdd"></i> Simpan Data</button>                        
-                        <a href="javascript:history.back()" class="btn btn-warning"><i class="fa fa-chevron-circle-left"></i> Kembali</a>
+                        <a href="<?php echo site_url('archived'); ?>" class="btn btn-warning"><i class="fa fa-chevron-circle-left"></i> Kembali</a>
                     </div>                   
                     </div><!-- /.box-body -->
                 </form>

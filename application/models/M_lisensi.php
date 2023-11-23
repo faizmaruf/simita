@@ -5,10 +5,9 @@ if (!defined('BASEPATH'))
 class M_lisensi extends CI_Model {    
 
     function semua() {        
-        $query = $this->db->query("SELECT tb_lisensi.id_lisensi,tb_cabang.namacabang,tb_lisensi.jenis_lisensi,tb_lisensi.tgl_pembelian,tb_lisensi.tgl_habis,
+        $query = $this->db->query("SELECT tb_lisensi.id_lisensi,tb_lisensi.jenis_lisensi,tb_lisensi.tgl_pembelian,tb_lisensi.tgl_habis,
         tb_lisensi.key_lisensi,tb_supplier.nama_supplier
-            FROM tb_lisensi INNER JOIN tb_cabang ON tb_lisensi.id_cabang = tb_cabang.id_cabang
-            INNER JOIN tb_supplier ON tb_lisensi.id_supplier = tb_supplier.id_supplier");
+            FROM tb_lisensi INNER JOIN tb_supplier ON tb_lisensi.id_supplier = tb_supplier.id_supplier");
         return $query;
     }
     function kdotomatis() {

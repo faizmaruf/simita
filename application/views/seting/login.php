@@ -21,7 +21,7 @@
                 <a href="#" ><b class="primary-color">ITAsset</b> Management </a>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Login Dengan User & Password </p>
+                <p class="login-box-msg">Login Dengan User & Password SIABSTRA </p>
                     <?php
                         echo form_open('login/auth');                       
                         if (validation_errors() || $this->session->flashdata('result_login')) {

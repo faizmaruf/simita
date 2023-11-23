@@ -14,6 +14,8 @@ class Manufacture extends CI_Controller {
    
     public function view_data() {
         $criteria = $this->m_manufacture->list_manufacture();
+        // var_dump($criteria);
+        // die;
         $no = 1;
         foreach ($criteria->result_array() as $data) {
             $row[] = array(
@@ -25,7 +27,7 @@ class Manufacture extends CI_Controller {
                 'delete' => '<center><a href="' . base_url() . 'manufacture/hapus/' . $data['id_manufacture'] .'" class="hapus" ><i class="glyphicon glyphicon-trash"></i></a></center>'
             );
         }
-        //$result=array_merge($result,array('rows'=>$row));
+        
         $result = array('aaData' => $row);
         echo json_encode($result);
     }

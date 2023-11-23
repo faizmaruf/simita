@@ -15,12 +15,12 @@ CKEDITOR.inline('editable');
 <section class="content-header">
     <h1>
         Detail Laptop 
-        <small>Inventaris Laptop (Asset No: <?php echo $recordall['kode_laptop'] ?>)</small>
+        <small>Inventaris Laptop (Asset No: <?php echo $recordall['no_inventaris'] ?>)</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-suitcase"></i>Inventaris</a></li>
         <li class="active">Laptop</li>
-        <li class="active"><?php echo $recordall['kode_laptop'] ?></li>
+        <li class="active"><?php echo $recordall['no_inventaris'] ?></li>
     </ol>
 </section>
 <section class="content">
@@ -44,20 +44,16 @@ CKEDITOR.inline('editable');
                           <br>
                             <tr>
                               <td style="text-align:right ">No. Inventaris IT :</td>
-                              <td style="width:70%"><?php echo $recordall['kode_laptop'] ?></td>
+                              <td style="width:70%"><?php echo $recordall['no_inventaris'] ?></td>
                             </tr>
-                            <tr>
-                              <td style="text-align:right ">No.Inventaris HRD :</td>
-                              <td style="width:70%"><?php echo $recordall['aset_hrd'] ?></td>
-                            </tr>
+                           
+                            
                             <tr>
                               <td style="text-align:right">Pengguna :</td>
                               <td><?php echo anchor('pengguna/edit/'.$recordall['id_pengguna'],$recordall['nama_pengguna']);?></td>
                             </tr>
-                            <tr>
-                              <td style="text-align:right">Cabang :</td>
-                              <td><?php echo $recordall['namacabang']?></td>                    
-                            </tr>
+                            
+                            
                             <tr>
                               <td style="text-align:right">Brand Laptop :</td>
                               <td><?php echo $recordall['nama_laptop']?></td>                    
@@ -115,15 +111,10 @@ CKEDITOR.inline('editable');
                         <div class="box-body">
                                 <div class="form-group">
                                     <label for="example">No. Inventaris</label>
-                                    <input type="hidden"  name="kode" value="<?php echo $record['kode_laptop'] ?>" >
-                                    <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['kode_laptop']; ?>" >
-                                </div>          
-                                 <div class="form-group">
-                                    <label for="example">Nomor Inventaris HRD</label>
-                                    <input type="text" disabled class="form-control" name="aset_hrd" class="form-control" value="<?php echo $record['aset_hrd']; ?>" required oninvalid="setCustomValidity('Merek/brand Harus di Isi !')"
-                                           oninput="setCustomValidity('')" placeholder="ex : ASUS, LENOVO" >
-                                        
-                                </div>                                   
+                                    <input type="hidden"  name="kode" value="<?php echo $record['no_inventaris'] ?>" >
+                                    <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['no_inventaris']; ?>" >
+                                </div> 
+                                                                 
                                 <div class="form-group">
                                   <label>Pengguna</label>
                                         <select name="pengguna" class="combobox form-control">
@@ -224,8 +215,8 @@ CKEDITOR.inline('editable');
                       </div>
                       <div class="tab-pane" id="tab_3">
                         <div class="col-md-10 "> 
-                          <h4>Maintenance [ <a><?php echo anchor('laptop/maintadd/'.$recordall['kode_laptop'],'Add New') ?></a> ]
-                          <a href="<?php echo base_url('laptop/print_maintenance/'.$recordall['kode_laptop']) ?>" target="_blank" ><i class="btn fa fa-print" data-toggle="tooltip" title="Cetak"></i></a></h4>                          
+                          <h4>Maintenance [ <a><?php echo anchor('laptop/maintadd/'.$recordall['no_inventaris'],'Add New') ?></a> ]
+                          <a href="<?php echo base_url('laptop/print_maintenance/'.$recordall['no_inventaris']) ?>" target="_blank" ><i class="btn fa fa-print" data-toggle="tooltip" title="Cetak"></i></a></h4>                          
                           <table class="table ">
                           <br>
                             <tr>
@@ -257,7 +248,7 @@ CKEDITOR.inline('editable');
                       </div>
                       <div class="tab-pane" id="tab_4">
                         <div class="col-md-10">  
-                          <h4>History / Mutasi [ <a><?php echo anchor('laptop/history/'.$recordall['kode_laptop'],'Add New') ?></a> ]</h4>                         
+                          <h4>History / Mutasi [ <a><?php echo anchor('laptop/history/'.$recordall['no_inventaris'],'Add New') ?></a> ]</h4>                         
                           <table class="table ">
                           <br>
                             <tr>

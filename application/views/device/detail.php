@@ -19,6 +19,16 @@
         <!-- left column -->
         <div class="col-md-12">
             <!-- general form elements -->
+             <?php
+                        if (  $this->session->flashdata('result_hapus')) {
+                                    ?>
+                            <?php echo $this->session->flashdata('result_hapus'); ?>
+                          <?php } ?>
+                        <?php
+                        if (  $this->session->flashdata('result_edit')) {
+                                    ?>
+                            <?php echo $this->session->flashdata('result_edit'); ?>
+                          <?php } ?>
             <div class="box box-primary">
                 <div class="box-header">   
                     <ul class="nav nav-tabs">
@@ -34,11 +44,11 @@
                           <br>
                             <tr>
                               <td style="text-align:right ">No. Inventaris :</td>
-                              <td style="width:70%"><?php echo $recordall['kode_network'] ?></td>
+                              <td style="width:70%"><?php echo $recordall['no_inventaris'] ?></td>
                             </tr>                            
                             <tr>
                               <td style="text-align:right">Device Type :</td>
-                              <td><?php echo $recordall['jenis_network']?></td>                    
+                              <td><?php echo $recordall['jenis_device']?></td>                    
                             </tr>
                             <tr>
                               <td style="text-align:right">Spesifikasi :</td>
@@ -72,17 +82,17 @@
                           <div class="box-body">
                               <div class="form-group">
                                   <label for="example">No. Inventaris</label>
-                                  <input type="hidden"  name="kode" value="<?php echo $record['kode_network'] ?>" >
-                                  <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['kode_network']; ?>" >
+                                  <input type="hidden"  name="kode" value="<?php echo $record['no_inventaris'] ?>" >
+                                  <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['no_inventaris']; ?>" >
                               </div>                                            
                               <div class="form-group">
                                   <label for="example">Device Type</label>                           
-                                  <input type="text" name="jenis" class="form-control" id="inputError" oninvalid="setCustomValidity('Network Device Harus di Isi !')"
-                                         oninput="setCustomValidity('')" placeholder="ex: Switch, HUB, Router" value="<?php echo $record['jenis_network']; ?>" >
+                                  <input type="text" name="jenis" class="form-control" id="inputError" oninvalid="setCustomValidity('device Device Harus di Isi !')"
+                                         oninput="setCustomValidity('')" placeholder="ex: Switch, HUB, Router" value="<?php echo $record['jenis_device']; ?>" >
                               </div> 
                               <div class="form-group">
                                   <label for="">Spesifikasi</label>
-                                  <textarea name="spek" class="form-control" rows="3"  required oninvalid="setCustomValidity('Spesifikasi network Harus di Isi !')"
+                                  <textarea name="spek" class="form-control" rows="3"  required oninvalid="setCustomValidity('Spesifikasi device Harus di Isi !')"
                                          oninput="setCustomValidity('')" placeholder="Spesifikasi"><?php echo $record['spesifikasi']; ?></textarea>
                                   <?php echo form_error('spek', '<div class="text-red">', '</div>'); ?>
                               </div>  
@@ -125,7 +135,7 @@
 
                           <div class="box-footer">
                               <button type="submit" name="submit" class="btn btn-primary"><i class="glyphicon glyphicon-hdd"></i> Simpan</button>
-                              <a href="<?php echo site_url('device'); ?>" class="btn btn-primary">Kembali</a>
+                              <a href="<?php echo site_url('archived'); ?>" class="btn btn-primary">Kembali</a>
                           </div>
                       </form>                          
                         </div>
@@ -133,7 +143,7 @@
                       
                       <div class="tab-pane" id="tab_3">
                         <div class="col-md-10 ">  
-                          <h4>History / Mutasi [ <a><?php echo anchor('device/history/'.$recordall['kode_network'],'Add New') ?></a> ]</h4>                         
+                          <h4>History / Mutasi [ <a><?php echo anchor('device/history/'.$recordall['no_inventaris'],'Add New') ?></a> ]</h4>                         
                           <table class="table ">
                           <br>
                             <tr>

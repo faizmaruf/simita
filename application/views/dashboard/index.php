@@ -77,30 +77,21 @@
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-aqua-active">
             <p style="text-align: center;"><span style="font-family: georgia, palatino; font-size: 15pt;">Selamat datang di SIMITA (SIstem Management IT Asset).</span></p>
-              <h3 class="widget-user-username"><?php echo "WILAYAH ".strtoupper($group['nama_group']);?></h3>
-              <h5 class="widget-user-desc"><?php echo strtoupper($group['alamat']); ?></h5>
+              
             </div>
-            <div class="widget-user-image">
-              <img class="img-circle" src="<?php echo base_url("assets/img/".$group['logo_dashboard'].""); ?>" alt="User Avatar">
-            </div>
+            
             <div class="box-footer">
               <div class="row">
                 <div class="col-sm-4 border-right">
-                  <div class="description-block">
-                    
-                    <span class="glyphicon glyphicon-hand-left" style="font-size:18px";></span>
-                    <span class="glyphicon-class" style="font-size:18px";>Gunakam Navigasi Menu Sebelah Kiri </span>
-                    
-                  </div>
-                  <!-- /.description-block -->
+                  
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 border-right">
                   <div class="description-block">
-                    <h5 class="description-header"><?php echo $group['nama_group']; ?> / <?php echo $group['alamat']; ?></h5>
+                    <h5 class="description-header">Lampung Tengah</h5>
                     <span class="description-text"></span>
                   </div>
-                  <center><i>SIMITA (SIstem Managemen IT Aset) v.2.5 build 052019</i><br><b>PT. Sejahtera Buana Trada Group</b><br>Halaman ini terbuka dalam <strong>{elapsed_time}</strong> detik.</center>
+                  <center><i>SIMITA (SIstem Managemen IT Aset)</i><br><b>PT. Bunda Medika Mandiri</b><br>Halaman ini terbuka dalam <strong>{elapsed_time}</strong> detik.</center>
                   <!-- /.description-block -->
                 </div>
                 <!-- /.col -->

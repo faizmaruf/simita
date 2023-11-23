@@ -5,6 +5,7 @@ class Supplier extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('m_supplier');
+        $this->load->library('form_validation');
         chek_session();
     }
 	public function index() {
@@ -38,16 +39,17 @@ class Supplier extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $data = array(
                 'nama_supplier' => $this->input->post('nama'),
-                'nomor_npwp' => $this->input->post('nomor_npwp'),
-                'nomor_ktp' => $this->input->post('nomor_ktp'),
                 'alamat_supplier' => $this->input->post('alamat'),
                 'nama_pic' => $this->input->post('nama_pic'),
                 'telepon' => $this->input->post('telepon'),
                 'isactive' => $this->input->post('isactive')
             );
             $this->m_supplier->simpan($data);
+             
+            // var_dump('testing');
+            // die;
             redirect('supplier');
-        } else {            
+        } else {  
             $this->template->display('supplier/tambah');
         }
     }
@@ -139,19 +141,19 @@ class Supplier extends CI_Controller {
     // Buat header tabel nya pada baris ke 3
     $excel->setActiveSheetIndex(0)->setCellValue('A3', "NO"); // Set kolom A3 
     $excel->setActiveSheetIndex(0)->setCellValue('B3', "Nama Supplier"); // Set kolom B3 
-    $excel->setActiveSheetIndex(0)->setCellValue('C3', "NPWP"); // Set kolom C3 
-    $excel->setActiveSheetIndex(0)->setCellValue('D3', "KTP (Jika Ada)"); // Set kolom C3 
-    $excel->setActiveSheetIndex(0)->setCellValue('E3', "Alamat Lengkap"); // Set kolom D3 
-    $excel->setActiveSheetIndex(0)->setCellValue('F3', "Nama Sales"); // Set kolom E3 
-    $excel->setActiveSheetIndex(0)->setCellValue('G3', "Telpon Sales");
+    // $excel->setActiveSheetIndex(0)->setCellValue('C3', "NPWP"); // Set kolom C3 
+    // $excel->setActiveSheetIndex(0)->setCellValue('D3', "KTP (Jika Ada)"); // Set kolom C3 
+    $excel->setActiveSheetIndex(0)->setCellValue('C3', "Alamat Lengkap"); // Set kolom D3 
+    $excel->setActiveSheetIndex(0)->setCellValue('D3', "Nama Sales"); // Set kolom E3 
+    $excel->setActiveSheetIndex(0)->setCellValue('E3', "Telpon Sales");
     // Apply style header yang telah kita buat tadi ke masing-masing kolom header
     $excel->getActiveSheet()->getStyle('A3')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('B3')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('C3')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('D3')->applyFromArray($style_col);
     $excel->getActiveSheet()->getStyle('E3')->applyFromArray($style_col);
-    $excel->getActiveSheet()->getStyle('F3')->applyFromArray($style_col);
-    $excel->getActiveSheet()->getStyle('G3')->applyFromArray($style_col);
+    // $excel->getActiveSheet()->getStyle('F3')->applyFromArray($style_col);
+    // $excel->getActiveSheet()->getStyle('G3')->applyFromArray($style_col);
     $supplier = $this->m_supplier->semua()->result();
     $no = 1; // Untuk penomoran tabel, di awal set dengan 1
     $numrow = 4; // Set baris pertama untuk isi tabel adalah baris ke 4
@@ -182,8 +184,8 @@ class Supplier extends CI_Controller {
     $excel->getActiveSheet()->getColumnDimension('C')->setWidth(25); // Set width kolom C
     $excel->getActiveSheet()->getColumnDimension('D')->setWidth(20); // Set width kolom D
     $excel->getActiveSheet()->getColumnDimension('E')->setWidth(25); // Set width kolom E
-    $excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
-    $excel->getActiveSheet()->getColumnDimension('G')->setWidth(25);
+    // $excel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+    // $excel->getActiveSheet()->getColumnDimension('G')->setWidth(25);
     
     // Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
     $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);

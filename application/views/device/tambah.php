@@ -23,14 +23,14 @@
                 ?>                   
                     <div class="box-body"> 
                         <div class="form-group">
-                            <label>No. Inventory</label>
-                            <input name="kode" onkeyup="this.value = this.value.toUpperCase()" class="form-control" rows="3" required oninvalid="setCustomValidity('Input No. Inventory Sesui Device Type ')"
-                                   oninput="setCustomValidity('')" placeholder="NET-PMT-001, CCT-PMT-001">
-                            <?php echo form_error('kode', '<div class="text-red">', '</div>'); ?>                            
-                        </div>
+                            <label for="example">No Inventaris</label>
+                            <input type="text" autocomplete="off" id="no_inventaris" name="no_inventaris" class="form-control " readonly required oninvalid="setCustomValidity('NoInventaris Wajib Diisi !')"
+                                   oninput="setCustomValidity('')" placeholder="<?php echo $no_inventaris ?>"  value="<?php echo $no_inventaris ?>"  >
+                                   <?php echo form_error('no_inventaris', '<div class="text-red">', '</div>'); ?>
+                        </div> 
                         <div class="form-group">
                             <label>Device Type</label>
-                            <input name="jenis" onkeyup="this.value = this.value.toUpperCase()" class="form-control" rows="3" required oninvalid="setCustomValidity('Network Device Harus di Isi !')"
+                            <input name="jenis" onkeyup="this.value = this.value.toUpperCase()" class="form-control" rows="3" required oninvalid="setCustomValidity('Tipe Device Harus di Isi !')"
                                    oninput="setCustomValidity('')" placeholder="Switch, HUB, Router, CCTV, Dll">
                             <?php echo form_error('jenis', '<div class="text-red">', '</div>'); ?>                            
                         </div>                             
@@ -39,6 +39,12 @@
                             <textarea name="spek" onkeyup="this.value = this.value.toUpperCase()" class="form-control" rows="3" required oninvalid="setCustomValidity('Spesifikasi Device Harus di Isi !')"
                                    oninput="setCustomValidity('')" placeholder="Spesifikasi"></textarea>
                             <?php echo form_error('spek', '<div class="text-red">', '</div>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="example">Harga Beli</label>
+                            <input type="number" name="harga" class="form-control" required oninvalid="setCustomValidity('Harga Beli Harus di Isi !')"
+                                   oninput="setCustomValidity('')" placeholder="Harga Beli Laptop" >
+                                   <?php echo form_error('harga', '<div class="text-red">', '</div>'); ?>
                         </div>
                         <div class="form-group">
                             <label>Lokasi Penggunaan</label>
@@ -55,7 +61,8 @@
                                  <input type="text" name="tgl_inv" class="form-control datepicker" data-date-format="yyyy-mm-dd" required oninvalid="setCustomValidity('Tgl. Inventaris harus di isi')"
                                    oninput="setCustomValidity('')" placeholder="yyyy-mm-dd" >                            
                             </div><!-- /.input group -->
-                        </div>                       
+                        </div>   
+                                            
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">

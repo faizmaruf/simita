@@ -4,7 +4,7 @@ class Printer extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_printer','m_laptop','m_masuk','m_maintenance'));
+        $this->load->model(array('m_printer','m_laptop','m_masuk','m_maintenance','m_kode_inventory'));
         chek_session();
          // load helper Date
          $this->load->helper('date');
@@ -21,6 +21,8 @@ class Printer extends CI_Controller {
         }else{
             $ambildata=$this->m_printer->semuagid()->result();
         }  
+        // var_dump($ambildata);
+        // die;
         $no=1;
         foreach($ambildata as $r) {  
         $dept=$this->db->get_where('tb_departemen',array('id_dept'=>$r->parent))->row_array();
@@ -65,8 +67,7 @@ class Printer extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $gid=$this->session->userdata('gid');           
             $data = array(
-                'kode_printer' => $this->m_printer->kdotomatis(),
-                'aset_hrd' => $this->input->post('aset_hrd'),
+                'no_inventaris' => $this->input->post('no_inventaris'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'jenis_printer' => $this->input->post('jenis'),
                 'merk' => $this->input->post('merk'),
@@ -80,16 +81,27 @@ class Printer extends CI_Controller {
                 'gid' => $gid
             );
             $data2=array(
-                'no_inventaris' => $this->m_printer->kdotomatis(),
+                'no_inventaris' => $this->input->post('no_inventaris'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'tgl_update'=>date('Y-m-d H:i:s'),
                 'admin'=>$this->session->userdata('nama'),
                 'note'=>'New Inventory',
                 );
-            $this->m_laptop->simpan_history($data2);
+                
+            // var_dump($data);
+            // var_dump($data2);
+            // die;
+            $user = $this->session->userdata('username');
+            $no_inventaris  = $this->input->post('no_inventaris');
             $this->m_printer->simpan($data);
-            redirect('printer');
+            $this->m_laptop->simpan_history($data2);
+            $this->m_kode_inventory->updateTableInvKode($no_inventaris,'Printer',$user);
+            $this->session->set_flashdata('result_tambah', '<br><div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Data Printer berhasil ditambah !</div>');
+
+            redirect('archived');
         } else {  
+            $user = $this->session->userdata('username');
+            $data['no_inventaris'] = $this->m_kode_inventory->createNewCode('Printer',mdate('%Y-%m-%d %H:%i:%s', now()),$user);           
             $data['pengguna'] = $this->m_printer->getpengguna()->result();
             $data['merk'] = $this->m_printer->getmerk()->result();   
             $data['supplier'] = $this->m_printer->getsupplier()->result();        
@@ -98,11 +110,17 @@ class Printer extends CI_Controller {
     }
 
     function detail() { 
-        $id = $this->uri->segment(3);                                           
+        $value = $this->uri->segment(3);
+        $param1 = $this->uri->segment(4);
+        $param2 = $this->uri->segment(5);
+        $bulan = $this->uri->segment(6);
+        $tahun = $this->uri->segment(7);
+        $strings = array($value,$param1,$param2,$bulan,$tahun);
+        $id = implode('/', $strings);                                          
         $data['recordall'] = $this->m_printer->get_inv($id)->row_array();
         $data['record'] = $this->m_printer->getkode($id)->row_array();
-        $data['service']=$this->m_laptop->get_service($id)->result();
-        $data['history']=$this->m_laptop->get_history($id)->result();
+        // $data['service']=$this->m_laptop->get_service($id)->result();
+        // $data['history']=$this->m_laptop->get_history($id)->result();
         $this->template->display('printer/detail', $data);            
     }	
     

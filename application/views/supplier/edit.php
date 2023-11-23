@@ -5,12 +5,6 @@
        $(".combobox").combobox();
     });
 </script>
-<script>
-        jQuery(function($){
-            $("#nomor_npwp").mask("99.999.999.9-999.999");
-            $("#nomor_ktp").mask("9999999999999999");
-        });
-</script>
 <section class="content-header">
     <h1>
         Edit
@@ -39,17 +33,7 @@
                             <input type="hidden"  name="id" value="<?php echo $record['id_supplier'] ?>" >
                             <input type="text" name="nama" onkeyup="this.value = this.value.toUpperCase()" class="form-control" id="inputError" required oninvalid="setCustomValidity('Nama Barang Harus di Isi !')"
                                    oninput="setCustomValidity('')" placeholder="Masukan Nama Barang" value="<?php echo $record['nama_supplier']; ?>" >
-                        </div>             
-                        <div class="form-group">
-                            <label for="example">NPWP</label>
-                            <input type="text" name="nomor_npwp" id="nomor_npwp" class="form-control" id="inputError" required oninvalid="setCustomValidity('Nomor NPWP Harus di Isi !')"
-                                   oninput="setCustomValidity('')" placeholder="" value="<?php echo $record['nomor_npwp']; ?>" >
-                        </div> 
-                        <div class="form-group">
-                            <label for="example">No.KTP</label>
-                            <input type="text" name="nomor_ktp" id="nomor_ktp" class="form-control" id="inputError" required oninvalid="setCustomValidity('Nomor KTP Harus di Isi !')"
-                                   oninput="setCustomValidity('')" placeholder="" value="<?php echo $record['nomor_ktp']; ?>" >
-                        </div>           
+                        </div>        
                         <div class="form-group">
                             <label for="">Alamat</label>
                             <textarea name="alamat" onkeyup="this.value = this.value.toUpperCase()" class="form-control" rows="3" required oninvalid="setCustomValidity('Spesifikasi Barang Harus di Isi !')"

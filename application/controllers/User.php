@@ -25,7 +25,8 @@ class User extends CI_Controller{
                 $paswd = $this->input->post('passwd');
                 $data   =   array(  'username'      =>  $_POST['u_name'],
                                     'nama_user'     =>  $_POST['nama'],
-                                    'password'      =>  SHA1($paswd . $this->config->item('key_login')),
+                                    // 'password'      =>  SHA1($paswd . $this->config->item('key_login')),
+                                    'password'      =>  SHA1($paswd),
                                     'gid'           =>  $_POST['group'],
                                     'last_login'    =>  date('Y-m-d h:i:s'),
                                     'role'          =>  $_POST['level']);
@@ -52,7 +53,8 @@ class User extends CI_Controller{
             if ($this->form_validation->run() == true) {
                 $paswd = $this->input->post('passwd');
                 $data   =   array(  'nama_user'     =>  $_POST['nama'],
-                                    'password'      =>  SHA1($paswd . $this->config->item('key_login')),
+                                    // 'password'      =>  SHA1($paswd . $this->config->item('key_login')),
+                                    'password'      =>  SHA1($paswd ),
                                     'gid'           =>  $_POST['group'],
                                     'role'          =>  $_POST['level']);
                 $this->db->where('id_user',$id);

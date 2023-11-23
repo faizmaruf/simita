@@ -11,6 +11,10 @@ class M_monitor extends CI_Model {
         return $query;
     }
 
+    function getAllMonitors(){
+        return $this->db->query("SELECT tb_inv_monitor.*,tb_pengguna.nama_pengguna FROM tb_inv_monitor LEFT JOIN tb_pengguna ON tb_inv_monitor.id_pengguna=tb_pengguna.id_pengguna ");
+    }
+
     function semuagid() {
         $gid=$this->session->userdata('gid');
         $query = $this->db->query("SELECT tb_inv_monitor.id_monitor,tb_inv_monitor.kode_monitor,tb_inv_monitor.kode_monitor,tb_pengguna.nama_pengguna,tb_inv_monitor.jenis_monitor,
@@ -27,7 +31,7 @@ class M_monitor extends CI_Model {
 
     function semua_arsip() {
         $gid=$this->session->userdata('gid');
-        $query = $this->db->query("SELECT tb_inv_monitor.id_monitor,tb_inv_monitor.kode_monitor,tb_pengguna.nama_pengguna,tb_inv_monitor.jenis_monitor,
+        $query = $this->db->query("SELECT tb_inv_monitor.id_monitor,tb_inv_monitor.no_inventaris,tb_pengguna.nama_pengguna,tb_inv_monitor.jenis_monitor,
             tb_inv_monitor.spesifikasi,tb_inv_monitor.tgl_inv,tb_inv_monitor.status,tb_inv_monitor.note,tb_inv_monitor.gid,tb_departemen.nama,tb_departemen.parent,tb_pengguna.id_dept
             FROM tb_inv_monitor INNER JOIN tb_pengguna ON tb_pengguna.id_pengguna = tb_inv_monitor.id_pengguna 
             INNER JOIN tb_departemen ON tb_departemen.id_dept = tb_pengguna.id_dept 
@@ -52,10 +56,8 @@ class M_monitor extends CI_Model {
     }
 
     function get_inv($id) {
-        $query = $this->db->query("SELECT tb_inv_monitor.id_monitor,tb_inv_monitor.kode_monitor,tb_inv_monitor.id_pengguna,tb_pengguna.id_pengguna,tb_pengguna.nama_pengguna,tb_inv_monitor.jenis_monitor,
-            tb_inv_monitor.spesifikasi,tb_inv_monitor.tgl_inv,tb_inv_monitor.harga_beli,tb_inv_monitor.status,tb_inv_monitor.note,tb_inv_monitor.gid,tb_departemen.nama,tb_departemen.parent,tb_pengguna.id_dept
-            FROM tb_inv_monitor INNER JOIN tb_pengguna ON tb_pengguna.id_pengguna = tb_inv_monitor.id_pengguna 
-            INNER JOIN tb_departemen ON tb_departemen.id_dept = tb_pengguna.id_dept WHERE tb_inv_monitor.kode_monitor ='$id'");
+        $query = $this->db->query("SELECT * FROM tb_inv_monitor LEFT JOIN tb_pengguna ON tb_pengguna.id_pengguna = tb_inv_monitor.id_pengguna 
+                WHERE tb_inv_monitor.no_inventaris ='$id'");
         return $query;
     }
 
@@ -65,7 +67,7 @@ class M_monitor extends CI_Model {
     }
 
     function getkode($id) {
-        $kode = array('kode_monitor' => $id);
+        $kode = array('no_inventaris' => $id);
         return $this->db->get_where('tb_inv_monitor', $kode);
     }
    
@@ -96,7 +98,7 @@ class M_monitor extends CI_Model {
     }
 
     function update($kode,$data) {        
-        $this->db->where('kode_monitor', $kode);
+        $this->db->where('no_inventaris', $kode);
         $this->db->update('tb_inv_monitor', $data);
     }
 

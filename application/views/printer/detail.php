@@ -5,7 +5,7 @@
     });
 </script>
 <section class="content-header">
-    <h1>
+  <h1>
         Detail
         <small>Inventaris Printer</small>
     </h1>
@@ -35,15 +35,7 @@
                           <br>
                             <tr>
                               <td style="text-align:right ">No. Inventaris :</td>
-                              <td style="width:70%"><?php echo $recordall['kode_printer'] ?></td>
-                            </tr>
-                            <tr>
-                              <td style="text-align:right ">Cabang :</td>
-                              <td style="width:70%"><?php echo $recordall['namacabang'] ?></td>
-                            </tr>
-                            <tr>
-                              <td style="text-align:right ">No.Aset HRD :</td>
-                              <td style="width:70%"><?php echo $recordall['aset_hrd'] ?></td>
+                              <td style="width:70%"><?php echo $recordall['no_inventaris'] ?></td>
                             </tr>
                             <tr>
                               <td style="text-align:right">Pengguna :</td>
@@ -90,8 +82,8 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="example">No. Inventaris</label>
-                                        <input type="hidden"  name="kode" value="<?php echo $record['kode_printer'] ?>" >
-                                        <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['kode_printer']; ?>" >
+                                        <input type="hidden"  name="kode" value="<?php echo $record['no_inventaris'] ?>" >
+                                        <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['no_inventaris']; ?>" >
                                     </div>                                            
                                     <div class="form-group">
                                             <label>Pengguna</label>
@@ -152,7 +144,7 @@
                                     </div>   
 									<div class="form-group">
 										<label for="example">Note/ Catatan</label>
-										<input type="text" autocomplete = "off" name="note" class="form-control" value="<?php echo $record['note']; ?>" required oninvalid="setCustomValidity('Serial Number Harus di Isi !')"
+										<input type="text" autocomplete = "off" name="note" class="form-control" value="<?php echo $record['note']; ?>" "
 											   oninput="setCustomValidity('')" placeholder="Note / Catatan Status Inventory" >
 											   <?php echo form_error('note', '<div class="text-red">', '</div>'); ?>
 									</div>
@@ -176,8 +168,8 @@
                       </div>
                       <div class="tab-pane" id="tab_3">
                         <div class="col-md-10 "> 
-                        <h4>Maintenance [ <a><?php echo anchor('printer/maintadd/'.$record['kode_printer'],'Add New') ?></a> ]
-                        <a href="<?php echo base_url('printer/print_maintenance/'.$recordall['kode_printer']) ?>" target="_blank" ><i class="btn fa fa-print" data-toggle="tooltip" title="Cetak"></i></a></h4>                           
+                        <h4>Maintenance [ <a><?php echo anchor('printer/maintadd/'.$record['no_inventaris'],'Add New') ?></a> ]
+                        <a href="<?php echo base_url('printer/print_maintenance/'.$recordall['no_inventaris']) ?>" target="_blank" ><i class="btn fa fa-print" data-toggle="tooltip" title="Cetak"></i></a></h4>                           
                           <table class="table ">
                           <br>
                             <tr>
@@ -211,7 +203,7 @@
                       </div>
                       <div class="tab-pane" id="tab_4">
                         <div class="col-md-10 ">  
-                          <h4>History / Mutasi [ <a><?php echo anchor('printer/history/'.$recordall['kode_printer'],'Add New') ?></a> ]</h4>                         
+                          <h4>History / Mutasi [ <a><?php echo anchor('printer/history/'.$recordall['no_inventaris'],'Add New') ?></a> ]</h4>                         
                           <table class="table ">
                           <br>
                             <tr>

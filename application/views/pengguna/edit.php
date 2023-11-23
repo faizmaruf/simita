@@ -50,30 +50,14 @@ function loadsubdept()
                             <label for="example">Kode Pengguna</label>
                             <input type="hidden"  name="kode" value="<?php echo $record['id_pengguna'] ?>" >
                             <input type="tex" name="idpengguna" disabled class="form-control" id="inputError" value="<?php echo $record['id_pengguna']; ?>" >
-                        </div>   
-                        <div class="form-group">
-                            <label for="example">NIK</label>                            
-                            <input type="tex" name="nik" class="form-control" id="inputError" required oninvalid="setCustomValidity('NIK Harus di Isi !')"
-                                   oninput="setCustomValidity('')" placeholder="Masukan NIK Karyawan" value="<?php echo $record['nik']; ?>" >
-                        </div> 
+                        </div>  
+                        
                         <div class="form-group">
                             <label for="example">Nama Pengguna</label>                            
                             <input type="tex" onkeyup="this.value = this.value.toUpperCase()"  name="pengguna" class="form-control" id="inputError" required oninvalid="setCustomValidity('Nama Harus di Isi !')"
                                    oninput="setCustomValidity('')" placeholder="Masukan Nama Karyawan" value="<?php echo $record['nama_pengguna']; ?>" >
                         </div> 
 
-                        <div class="form-group">
-                                <label>Cabang</label>
-                                <select name="cabang" class="form-control">
-                                    <?php
-                                    foreach ($cabang as $j) {
-                                        echo "<option value='$j->namacabang'";
-                                        echo $record['id_cabang'] == $j->namacabang ? 'selected' : '';
-                                        echo">$j->namacabang</option>";
-                                    }
-                                    ?>
-                                </select>
-                        </div>
                         <div class="form-group">
                                 <label>Jabatan</label>
                                 <select name="jabatan" class="form-control">

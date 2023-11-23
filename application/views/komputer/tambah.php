@@ -8,7 +8,7 @@
 </script>
 <script>
         jQuery(function($){
-            $("#asethrd").mask("aaaa99/9/9/9/999/9");
+            $("#no_inventaris").mask("aaaa99/9/9/9/999/9");
             $("#ip").mask("999.999.999.999");
         });
 </script>
@@ -57,11 +57,11 @@ CKEDITOR.inline('editable');
                             </select> 
                             <?php echo form_error('pengguna', '<div class="text-red">', '</div>'); ?>                           
                         </div>    
-                        <div class="form-group">
-                            <label for="example">Nomor Aset HRD</label>
-                            <input type="text" autocomplete="off" id="asethrd" name="aset_hrd" class="form-control" required oninvalid="setCustomValidity('Nomor Aset HRD Wajib Diisi !')"
-                                   oninput="setCustomValidity('')" placeholder="BITJ01/0/1/2/345/6" >
-                                   <?php echo form_error('aset_hrd', '<div class="text-red">', '</div>'); ?>
+                         <div class="form-group">
+                            <label for="no_inventaris_komputer">No Inventaris</label>
+                            <input type="text" autocomplete="off" id="no_inventaris_komputer" name="no_inventaris_komputer" class="form-control " readonly required oninvalid="setCustomValidity('NoInventaris Wajib Diisi !')"
+                                   oninput="setCustomValidity('')" placeholder="<?php echo $no_inventaris_komputer ?>" value="<?php echo $no_inventaris_komputer ?>"  >
+                                   <?php echo form_error('no_inventaris_komputer', '<div class="text-red">', '</div>'); ?>
                         </div>                
                         <div class="form-group">
                             <label>Brand</label>
@@ -158,7 +158,7 @@ CKEDITOR.inline('editable');
 
                     <div class="box-footer">
                         <button type="submit" name="submit" class="btn btn-primary"><i class="glyphicon glyphicon-hdd"></i> Simpan</button>                        
-                        <a href="<?php echo site_url('komputer'); ?>" class="btn btn-primary">Kembali</a>
+                        <a href="<?php echo site_url('archived'); ?>" class="btn btn-primary">Kembali</a>
                     </div>
                 </form>
                 </div>

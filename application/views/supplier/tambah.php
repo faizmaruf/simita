@@ -40,18 +40,7 @@
                                    oninput="setCustomValidity('')" placeholder="Masukan Nama Supplier" >
                                    <?php echo form_error('nama', '<div class="text-red">', '</div>'); ?>
                         </div>
-                        <div class="form-group">
-                            <label for="example">NPWP</label>
-                            <input type="text" id="npwp" name="nomor_npwp" class="form-control" required oninvalid="setCustomValidity('Nomor NPWP Wajib Diisi !')"
-                                   oninput="setCustomValidity('')" placeholder="00.000.000.0-000.000" >
-                                   <?php echo form_error('npwp', '<div class="text-red">', '</div>'); ?>
-                        </div> 
-                        <div class="form-group">
-                            <label for="example">No.KTP (Jika Tidak Memiliki NPWP)</label>
-                            <input type="text" id="ktp" name="nomor_ktp" class="form-control" required oninvalid="setCustomValidity('Nomor KTP Wajib Diisi !')"
-                                   oninput="setCustomValidity('')" placeholder="" >
-                                   <?php echo form_error('ktp', '<div class="text-red">', '</div>'); ?>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="example">Alamat Lengkap</label>
                             <textarea name="alamat" onkeyup="this.value = this.value.toUpperCase()" class="form-control" required oninvalid="setCustomValidity('Alamat Harus di Isi !')"
@@ -60,7 +49,7 @@
                         </div>             
                         <div class="form-group">
                             <label for="example">Nama PIC / Sales</label>
-                            <input type="tex" onkeyup="this.value = this.value.toUpperCase()"  name="namapic" class="form-control" required oninvalid="setCustomValidity('Nama PIC atau Sales Harus di Isi !')"
+                            <input type="tex" onkeyup="this.value = this.value.toUpperCase()"  name="nama_pic" class="form-control" required oninvalid="setCustomValidity('Nama PIC atau Sales Harus di Isi !')"
                                    oninput="setCustomValidity('')" placeholder="Masukan Nama PIC/Sales" >
                                    <?php echo form_error('namapic', '<div class="text-red">', '</div>'); ?>
                         </div> 

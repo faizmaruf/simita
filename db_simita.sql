@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 27, 2019 at 06:39 AM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 5.6.32
+-- Host: localhost
+-- Generation Time: Nov 24, 2023 at 12:18 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -38,6 +37,36 @@ CREATE TABLE `captcha` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_inv_kode`
+--
+
+CREATE TABLE `tbl_inv_kode` (
+  `id` int(11) NOT NULL,
+  `nama_barang` varchar(255) NOT NULL,
+  `keterangan` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  `param1` varchar(10) NOT NULL,
+  `param2` varchar(10) NOT NULL,
+  `last_used` varchar(255) NOT NULL,
+  `used_by` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_inv_kode`
+--
+
+INSERT INTO `tbl_inv_kode` (`id`, `nama_barang`, `keterangan`, `value`, `param1`, `param2`, `last_used`, `used_by`, `created_at`, `updated_at`) VALUES
+(1, 'Laptop', 'Urut Kode Laptop', '22', 'LAP', 'IT', '00022/LAP/IT/VII/2023', 'faizmaruf', '2023-06-22 14:38:26', '2023-07-06 04:18:27'),
+(2, 'Komputer', 'Urut Kode Komputer', '5', 'KOM', 'IT', '00005/KOM/IT/VII/2023', 'faizmaruf', '2023-07-02 16:15:14', '2023-07-04 08:53:51'),
+(3, 'Monitor', 'Urut Kode Monitor', '5', 'MON', 'IT', '00005/MON/IT/VII/2023', 'faizmaruf', '2023-07-04 14:55:16', '2023-07-06 04:17:49'),
+(4, 'Printer', 'Urut Kode Printer', '2', 'PRN', 'IT', '00002/PRN/IT/VII/2023', 'faizmaruf', '2023-07-06 09:28:40', '2023-07-12 04:57:04'),
+(5, 'Device', 'Urut Kode Device', '5', 'SUP', 'IT', '00005/SUP/IT/VII/2023', 'faizmaruf', '2023-07-12 10:34:07', '2023-07-13 04:22:52');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_barang`
 --
 
@@ -49,18 +78,6 @@ CREATE TABLE `tb_barang` (
   `spesifikasi` varchar(250) DEFAULT NULL,
   `satuan` enum('PCS','PACK','UNIT','ROLL','METER','BUAH') DEFAULT 'PCS',
   `gid` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_cabang`
---
-
-CREATE TABLE `tb_cabang` (
-  `id_cabang` int(11) NOT NULL,
-  `namacabang` varchar(50) NOT NULL,
-  `wilayah` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -89,7 +106,6 @@ INSERT INTO `tb_departemen` (`id_dept`, `gid`, `nama`, `parent`) VALUES
 (8, 1, 'JAHIT/ KEMAS', 5),
 (9, 1, 'KEMAS', 8),
 (10, 1, 'DISTRIBUSI', 8),
-(11, 1, 'HRD & GA', 0),
 (16, 1, 'FINISHING', 15),
 (17, 1, 'PRINTING PREP', 15),
 (18, 1, 'PRINTING PROD', 15),
@@ -108,7 +124,6 @@ INSERT INTO `tb_departemen` (`id_dept`, `gid`, `nama`, `parent`) VALUES
 (39, 1, 'ACCOUNTING', 37),
 (40, 1, 'IT', 0),
 (41, 1, 'IT Support', 40),
-(47, 1, 'SALES & MARKETING', 0),
 (48, 1, 'SALES SUPPORT', 47),
 (49, 1, 'SALES HEAD', 47),
 (57, 2, 'TEKNIK', 0),
@@ -180,24 +195,99 @@ CREATE TABLE `tb_internet` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_inv_device`
+--
+
+CREATE TABLE `tb_inv_device` (
+  `id_device` int(255) NOT NULL,
+  `no_inventaris` varchar(255) NOT NULL,
+  `lokasi` varchar(50) DEFAULT NULL,
+  `jenis_device` varchar(50) DEFAULT NULL,
+  `spesifikasi` varchar(200) DEFAULT NULL,
+  `tgl_inv` date DEFAULT NULL,
+  `harga_beli` decimal(20,0) NOT NULL,
+  `status` enum('DIGUNAKAN','SIAP DIGUNAKAN','DIPERBAIKI','DIPINJAMKAN','ARSIP/DISIMPAN','RUSAK/NOT FIXABLE','HILANG/DICURI') DEFAULT 'DIGUNAKAN',
+  `gid` int(20) DEFAULT NULL,
+  `createdate` datetime DEFAULT NULL,
+  `createby` varchar(20) DEFAULT NULL,
+  `updatedate` datetime DEFAULT NULL,
+  `updateby` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_inv_device`
+--
+
+INSERT INTO `tb_inv_device` (`id_device`, `no_inventaris`, `lokasi`, `jenis_device`, `spesifikasi`, `tgl_inv`, `harga_beli`, `status`, `gid`, `createdate`, `createby`, `updatedate`, `updateby`) VALUES
+(5, '00005/SUP/IT/VII/2023', 'RUANG SERVER', 'HUB', 'GWERAGWAEGFWG', '2023-07-12', '525235', 'DIGUNAKAN', 1, '2023-07-13 04:22:52', 'faizmaruf', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_inv_history`
 --
 
 CREATE TABLE `tb_inv_history` (
   `id_history` int(11) NOT NULL,
-  `no_inventaris` varchar(20) DEFAULT NULL,
+  `no_inventaris` varchar(255) DEFAULT NULL,
   `tgl_update` datetime DEFAULT NULL,
   `status` enum('Buat Baru','Dipinjamkan','Kembali','Mutasi') DEFAULT 'Buat Baru',
   `admin` varchar(30) DEFAULT NULL,
   `id_pengguna_awal` varchar(30) DEFAULT NULL,
   `id_pengguna` varchar(30) DEFAULT NULL,
-  `lokasi` varchar(50) NOT NULL,
+  `lokasi` varchar(50) DEFAULT NULL,
   `note` varchar(80) DEFAULT NULL,
   `createdate` datetime DEFAULT NULL,
   `createby` varchar(45) DEFAULT NULL,
   `lastupdate` datetime DEFAULT NULL,
   `updateby` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_inv_history`
+--
+
+INSERT INTO `tb_inv_history` (`id_history`, `no_inventaris`, `tgl_update`, `status`, `admin`, `id_pengguna_awal`, `id_pengguna`, `lokasi`, `note`, `createdate`, `createby`, `lastupdate`, `updateby`) VALUES
+(1, 'NET-PMT-001', '2023-06-21 09:14:21', 'Buat Baru', 'Ahmad Sopian', NULL, NULL, 'RUANG SERVER', 'New Inventory', NULL, NULL, NULL, NULL),
+(2, '00005/LAP/IT/VI/2023', '2023-06-28 04:40:06', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0001', 'U023.0001', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(3, '00006/LAP/IT/VI/2023', '2023-06-28 05:55:35', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0003', 'U023.0003', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(4, '00007/LAP/IT/VI/2023', '2023-06-28 06:42:27', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0003', 'U023.0003', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(5, '00008/LAP/IT/VI/2023', '2023-06-28 08:51:03', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0003', 'U023.0003', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(6, '00009/LAP/IT/VI/2023', '2023-06-28 08:52:17', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0003', 'U023.0003', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(7, '00010/LAP/IT/VI/2023', '2023-06-28 10:24:30', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0003', 'U023.0003', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(8, '00011/LAP/IT/VI/2023', '2023-06-28 12:19:36', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(9, '00013/LAP/IT/VII/2023', '2023-07-03 04:23:28', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(10, '00014/LAP/IT/VII/2023', '2023-07-03 04:39:57', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0001', 'U023.0001', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(11, '00015/LAP/IT/VII/2023', '2023-07-03 04:41:43', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0001', 'U023.0001', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(12, '00016/LAP/IT/VII/2023', '2023-07-03 04:45:11', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0001', 'U023.0001', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(13, '00017/LAP/IT/VII/2023', '2023-07-03 04:48:45', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0001', 'U023.0001', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(14, '00018/LAP/IT/VII/2023', '2023-07-03 04:50:36', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(15, '00019/LAP/IT/VII/2023', '2023-07-03 06:30:43', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(16, '', '2023-07-03 11:53:10', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(17, '00003/KOM/IT/VII/2023', '2023-07-04 04:03:40', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(18, '00004/KOM/IT/VII/2023', '2023-07-04 08:20:27', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(19, '00005/KOM/IT/VII/2023', '2023-07-04 08:53:51', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(20, NULL, '2023-07-04 09:57:06', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(21, NULL, '2023-07-04 09:58:55', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(22, NULL, '2023-07-04 10:00:56', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(23, NULL, '2023-07-04 10:01:21', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(24, NULL, '2023-07-04 10:01:23', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(25, NULL, '2023-07-04 10:01:24', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(26, NULL, '2023-07-04 10:01:58', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(27, '00002/MON/IT/VII/2023', '2023-07-04 10:04:12', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(28, '00002/MON/IT/VII/2023', '2023-07-06 03:59:09', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(29, '00003/MON/IT/VII/2023', '2023-07-06 04:00:39', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(30, '00004/MON/IT/VII/2023', '2023-07-06 04:11:38', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(31, '00005/MON/IT/VII/2023', '2023-07-06 04:14:39', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(32, '00005/MON/IT/VII/2023', '2023-07-06 04:17:49', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(33, '00022/LAP/IT/VII/2023', '2023-07-06 04:18:27', 'Buat Baru', 'Faiz Alauddin Maruf', 'U023.0004', 'U023.0004', NULL, 'Inventory Baru', NULL, NULL, NULL, NULL),
+(34, '00001/PRN/IT/VII/2023', '2023-07-06 05:41:47', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, 'U023.0004', NULL, 'New Inventory', NULL, NULL, NULL, NULL),
+(35, '00002/PRN/IT/VII/2023', '2023-07-12 04:57:04', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, 'U023.0004', NULL, 'New Inventory', NULL, NULL, NULL, NULL),
+(36, '00001/SUP/IT/VII/2023', '2023-07-12 08:48:20', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, NULL, 'RUANG SERVER', 'New Inventory', NULL, NULL, NULL, NULL),
+(37, '00002/SUP/IT/VII/2023', '2023-07-13 04:16:15', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, NULL, 'RUANG SERVER', 'New Inventory', NULL, NULL, NULL, NULL),
+(38, '00003/SUP/IT/VII/2023', '2023-07-13 04:19:05', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, NULL, 'RUANG SERVER', 'New Inventory', NULL, NULL, NULL, NULL),
+(39, '00004/SUP/IT/VII/2023', '2023-07-13 04:20:34', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, NULL, 'RUANG SERVER', 'New Inventory', NULL, NULL, NULL, NULL),
+(40, '00005/SUP/IT/VII/2023', '2023-07-13 04:22:52', 'Buat Baru', 'Faiz Alauddin Maruf', NULL, NULL, 'RUANG SERVER', 'New Inventory', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -207,8 +297,7 @@ CREATE TABLE `tb_inv_history` (
 
 CREATE TABLE `tb_inv_komputer` (
   `id_komputer` int(20) NOT NULL,
-  `kode_komputer` varchar(20) NOT NULL,
-  `aset_hrd` varchar(45) NOT NULL,
+  `no_inventaris` varchar(255) NOT NULL,
   `id_pengguna` varchar(30) DEFAULT NULL,
   `nama_komputer` varchar(50) DEFAULT NULL,
   `tipe` varchar(45) DEFAULT NULL,
@@ -228,6 +317,14 @@ CREATE TABLE `tb_inv_komputer` (
   `updatedate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tb_inv_komputer`
+--
+
+INSERT INTO `tb_inv_komputer` (`id_komputer`, `no_inventaris`, `id_pengguna`, `nama_komputer`, `tipe`, `spesifikasi`, `serial_number`, `kode_lisensi`, `network`, `tgl_inv`, `tgl_garansi`, `harga_beli`, `status`, `note`, `gid`, `createby`, `createdate`, `updateby`, `updatedate`) VALUES
+(2, '00003/KOM/IT/VII/2023', 'U023.0004', 'DELL', 'LATITUDE 3331', '<p>er3qarqrefwfewqf</p>', 'DFDSSD21', 'LIC-JKT-0623001', '111.111.111.111', '2023-07-07', '2023-07-06', '34232423', 'DIGUNAKAN', 'ewfef', 1, 'faizmaruf', '2023-07-04 04:03:40', 'faizmaruf', '2023-07-13 11:47:40'),
+(4, '00005/KOM/IT/VII/2023', 'U023.0004', 'HP', 'LATITUDE 3331', '<p>fsfsdvvdsv</p>', 'FEWDFW', 'LIC-JKT-0623001', '111.111.111.111', '2023-07-20', '2023-07-06', '3243124132', 'DIGUNAKAN', NULL, 1, 'faizmaruf', '2023-07-04 08:53:51', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -236,7 +333,7 @@ CREATE TABLE `tb_inv_komputer` (
 
 CREATE TABLE `tb_inv_laptop` (
   `id_laptop` int(30) NOT NULL,
-  `kode_laptop` varchar(20) NOT NULL,
+  `no_inventaris` varchar(255) NOT NULL,
   `id_pengguna` varchar(30) DEFAULT NULL,
   `nama_laptop` varchar(50) DEFAULT NULL,
   `tipe_laptop` varchar(50) NOT NULL,
@@ -250,12 +347,20 @@ CREATE TABLE `tb_inv_laptop` (
   `status` enum('DIGUNAKAN','SIAP DIGUNAKAN','DIPERBAIKI','DIPINJAMKAN','ARSIP/DISIMPAN','RUSAK/NOT FIXABLE','HILANG/DICURI') DEFAULT 'DIGUNAKAN',
   `note` varchar(100) DEFAULT NULL,
   `gid` int(11) DEFAULT NULL,
-  `aset_hrd` varchar(50) NOT NULL,
   `createdate` datetime DEFAULT NULL,
   `createby` varchar(45) DEFAULT NULL,
   `updateby` varchar(45) DEFAULT NULL,
   `updatedate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_inv_laptop`
+--
+
+INSERT INTO `tb_inv_laptop` (`id_laptop`, `no_inventaris`, `id_pengguna`, `nama_laptop`, `tipe_laptop`, `spesifikasi`, `serial_number`, `kode_lisensi`, `network`, `tgl_inv`, `tgl_garansi`, `harga_beli`, `status`, `note`, `gid`, `createdate`, `createby`, `updateby`, `updatedate`) VALUES
+(18, '00018/LAP/IT/VII/2023', 'U023.0004', 'APPLE', 'LATITUDE 3330', '<p>Hdhsh</p>', '7383', 'LIC-JKT-0623001', '111.111.111.111', '2023-07-06', '2023-07-20', '5088', 'SIAP DIGUNAKAN', 'EFWEF', 1, '2023-07-03 04:50:36', 'faizmaruf', 'faizmaruf', '2023-07-06 06:42:26'),
+(19, '00019/LAP/IT/VII/2023', 'U023.0004', 'APPLE', 'LATITUDE 3330', '<p>dsfsdfds</p>', '321313', 'LIC-JKT-0623001', '111.111.111.111', '2023-07-06', '2023-07-30', '312312', 'DIGUNAKAN', NULL, 1, '2023-07-03 06:30:43', 'faizmaruf', NULL, NULL),
+(20, '00022/LAP/IT/VII/2023', 'U023.0004', 'DELL', 'MACBOOK PRO 2012 15 INCH', '<p>dghfgefrgergsdfbsb</p>', 'DFGERF', 'LIC-JKT-0623001', '111.111.111.111', '2023-07-28', '2023-07-20', '253523523', 'DIGUNAKAN', 'FBDB', 1, '2023-07-06 04:18:27', 'faizmaruf', 'faizmaruf', '2023-07-13 12:00:52');
 
 -- --------------------------------------------------------
 
@@ -265,7 +370,7 @@ CREATE TABLE `tb_inv_laptop` (
 
 CREATE TABLE `tb_inv_monitor` (
   `id_monitor` int(30) NOT NULL,
-  `kode_monitor` varchar(30) NOT NULL,
+  `no_inventaris` varchar(255) NOT NULL,
   `id_pengguna` varchar(30) DEFAULT NULL,
   `jenis_monitor` enum('LED','LCD','CRT','TOUCH SCREEN') DEFAULT 'LED',
   `spesifikasi` varchar(200) DEFAULT NULL,
@@ -277,6 +382,16 @@ CREATE TABLE `tb_inv_monitor` (
   `createddate` datetime NOT NULL,
   `createby` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_inv_monitor`
+--
+
+INSERT INTO `tb_inv_monitor` (`id_monitor`, `no_inventaris`, `id_pengguna`, `jenis_monitor`, `spesifikasi`, `tgl_inv`, `harga_beli`, `status`, `note`, `gid`, `createddate`, `createby`) VALUES
+(1, '00002/MON/IT/VII/2023', 'U023.0004', 'LED', 'sdfsfds', '2023-07-20', '312312', 'DIGUNAKAN', NULL, 1, '2023-07-04 10:04:12', 'faizmaruf'),
+(3, '00003/MON/IT/VII/2023', 'U023.0004', 'TOUCH SCREEN', 'gvfsgrwfg', '2023-07-11', '5235235235235', 'DIGUNAKAN', NULL, 1, '2023-07-06 04:00:39', 'faizmaruf'),
+(4, '00004/MON/IT/VII/2023', 'U023.0004', 'LED', 'gswdgsgdsg', '2023-07-11', '52523', 'DIGUNAKAN', NULL, 1, '2023-07-06 04:11:38', 'faizmaruf'),
+(7, '00005/MON/IT/VII/2023', 'U023.0004', 'LED', 'gsgdsgfefewfwef', '2023-07-24', '25352', 'DIGUNAKAN', 'dsfsd', 1, '2023-07-06 04:17:49', 'faizmaruf');
 
 -- --------------------------------------------------------
 
@@ -309,8 +424,7 @@ CREATE TABLE `tb_inv_network` (
 
 CREATE TABLE `tb_inv_printer` (
   `id_printer` int(20) NOT NULL,
-  `kode_printer` varchar(30) DEFAULT NULL,
-  `aset_hrd` varchar(45) NOT NULL,
+  `no_inventaris` varchar(255) DEFAULT NULL,
   `id_pengguna` varchar(30) DEFAULT NULL,
   `jenis_printer` enum('DESKJET','LASERJET','DOTMATRIX','ALL-IN','SCANER','FAX') DEFAULT 'DESKJET',
   `merk` varchar(45) NOT NULL,
@@ -327,6 +441,13 @@ CREATE TABLE `tb_inv_printer` (
   `updatedate` datetime DEFAULT NULL,
   `gid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_inv_printer`
+--
+
+INSERT INTO `tb_inv_printer` (`id_printer`, `no_inventaris`, `id_pengguna`, `jenis_printer`, `merk`, `spesifikasi`, `tgl_inv`, `harga_beli`, `status`, `note`, `isSewa`, `supplier`, `createby`, `createdate`, `updateby`, `updatedate`, `gid`) VALUES
+(2, '00002/PRN/IT/VII/2023', 'U023.0004', 'ALL-IN', 'EPSON', 'gergrwa', '2023-06-27', '52345', 'DIGUNAKAN', NULL, 'False', '1', 'faizmaruf', '2023-07-12 04:57:04', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -407,6 +528,14 @@ CREATE TABLE `tb_lisensi` (
   `gid` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tb_lisensi`
+--
+
+INSERT INTO `tb_lisensi` (`id_lisensi`, `kode_mikrotik`, `kode_lisensi`, `id_supplier`, `jenis_lisensi`, `id_cabang`, `key_lisensi`, `tgl_pembelian`, `tgl_habis`, `jumlah_lisensi`, `jumlah_terpakai`, `keterangan`, `createby`, `createdate`, `updateby`, `updatedate`, `gid`) VALUES
+(1, NULL, 'LIC-JKT-0623001', '1', 'AntiVirus', NULL, '13213123213', '2023-06-08', '2023-05-31', '1', NULL, '<p>213213</p>', 'faizmaruf', '2023-06-28 10:20:25', NULL, NULL, '1'),
+(2, NULL, 'LIC-JKT-0623001', '1', 'OS', NULL, 'WINDOWS', '2023-06-07', '2023-06-14', '432', NULL, '<p>gfdgdfg</p>', 'faizmaruf', '2023-06-28 11:34:13', NULL, NULL, '1');
+
 -- --------------------------------------------------------
 
 --
@@ -478,7 +607,9 @@ INSERT INTO `tb_manufacture` (`id_manufacture`, `nama_manufacture`, `jenis`) VAL
 (12, 'HDD External', 'JENIS-DEVICE'),
 (13, 'Switch HUB', 'JENIS-DEVICE'),
 (14, 'DELL', 'MERK-LAPTOP'),
-(15, 'LATITUDE 3330', 'MODEL-LAPTOP');
+(15, 'LATITUDE 3330', 'MODEL-LAPTOP'),
+(18, 'APPLE', 'MERK-LAPTOP'),
+(19, 'MACBOOK PRO 2012 15 INCH', 'MODEL-LAPTOP');
 
 -- --------------------------------------------------------
 
@@ -524,7 +655,6 @@ INSERT INTO `tb_menu` (`id_menu`, `nama_menu`, `icon`, `link`, `parent`, `role`,
 (24, 'User Seting', 'fa fa-user-circle text-aqua', 'user', 22, 'Administrator', 'Y'),
 (25, 'Archived', 'fa fa-save text-aqua', 'archived', 6, 'Admin', 'Y'),
 (26, 'Group Seting', 'fa fa-users text-aqua', 'group', 22, 'Admin', 'Y'),
-(27, 'Master Cabang', 'fa fa-building text-aqua', 'cabang', 2, 'Administrator', 'Y'),
 (29, 'Provider Internet', 'fa fa-signal text-aqua', 'provider', 2, 'Administrator', 'Y'),
 (30, 'Koneksi Internet', 'fa fa-globe text-aqua', 'internet', 6, 'Admin', 'Y'),
 (31, 'Master Referensi', 'fa fa-bullseye text-aqua', 'manufacture', 2, 'Administrator', 'Y'),
@@ -578,15 +708,20 @@ CREATE TABLE `tb_pelayanan` (
 
 CREATE TABLE `tb_pengguna` (
   `id_pengguna` varchar(30) NOT NULL DEFAULT '',
-  `nik` varchar(30) NOT NULL,
   `nama_pengguna` varchar(30) NOT NULL,
   `id_dept` int(30) NOT NULL,
   `id_jabatan` int(30) NOT NULL,
   `ruang_kantor` varchar(50) NOT NULL,
-  `id_cabang` varchar(45) DEFAULT NULL,
   `createby` varchar(45) DEFAULT NULL,
   `createdate` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_pengguna`
+--
+
+INSERT INTO `tb_pengguna` (`id_pengguna`, `nama_pengguna`, `id_dept`, `id_jabatan`, `ruang_kantor`, `createby`, `createdate`) VALUES
+('U023.0004', 'SIKIT', 40, 1, 'fsdf', 'faizmaruf', '2023-06-28 12:17:36');
 
 -- --------------------------------------------------------
 
@@ -595,7 +730,7 @@ CREATE TABLE `tb_pengguna` (
 --
 
 CREATE TABLE `tb_permintaandtl` (
-  `id_trans_detail` int(30) NOT NULL DEFAULT '0',
+  `id_trans_detail` int(30) NOT NULL DEFAULT 0,
   `kode_permintaan` varchar(30) DEFAULT NULL,
   `tgl_permintaan` date NOT NULL,
   `kode_barang` varchar(30) DEFAULT NULL,
@@ -614,7 +749,7 @@ CREATE TABLE `tb_permintaandtl` (
 --
 
 CREATE TABLE `tb_permintaanhdr` (
-  `id_permintaan` int(30) NOT NULL DEFAULT '0',
+  `id_permintaan` int(30) NOT NULL DEFAULT 0,
   `kode_permintaan` varchar(30) DEFAULT NULL,
   `tgl_permintaan` date DEFAULT NULL,
   `id_supplier` int(20) DEFAULT NULL,
@@ -716,10 +851,15 @@ CREATE TABLE `tb_supplier` (
   `alamat_supplier` varchar(100) NOT NULL,
   `telepon` varchar(20) NOT NULL,
   `nama_pic` varchar(45) NOT NULL,
-  `nomor_npwp` varchar(45) NOT NULL,
-  `nomor_ktp` varchar(45) NOT NULL,
   `isactive` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tb_supplier`
+--
+
+INSERT INTO `tb_supplier` (`id_supplier`, `nama_supplier`, `alamat_supplier`, `telepon`, `nama_pic`, `isactive`) VALUES
+(1, 'DSFDFS', 'DSFDSFDSF', '08984153117', 'AFSFAF', 'True');
 
 -- --------------------------------------------------------
 
@@ -842,7 +982,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nama_user`, `username`, `password`, `role`, `last_login`, `gid`, `createdate`, `createby`) VALUES
-(8, 'Ahmad Sopian', 'root', '59520785981ac5a0b12fc284f01c301e8c7708fb', 'Administrator', '2019-05-27 06:03:13', 1, NULL, NULL);
+(8, 'Ahmad Sopian', 'root', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'Administrator', '2023-06-21 09:33:40', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -875,16 +1015,16 @@ ALTER TABLE `captcha`
   ADD KEY `word` (`word`);
 
 --
+-- Indexes for table `tbl_inv_kode`
+--
+ALTER TABLE `tbl_inv_kode`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tb_barang`
 --
 ALTER TABLE `tb_barang`
   ADD PRIMARY KEY (`kode_barang`);
-
---
--- Indexes for table `tb_cabang`
---
-ALTER TABLE `tb_cabang`
-  ADD PRIMARY KEY (`id_cabang`);
 
 --
 -- Indexes for table `tb_departemen`
@@ -905,6 +1045,13 @@ ALTER TABLE `tb_internet`
   ADD PRIMARY KEY (`id_internet`);
 
 --
+-- Indexes for table `tb_inv_device`
+--
+ALTER TABLE `tb_inv_device`
+  ADD PRIMARY KEY (`id_device`),
+  ADD UNIQUE KEY `no_inventaris` (`no_inventaris`);
+
+--
 -- Indexes for table `tb_inv_history`
 --
 ALTER TABLE `tb_inv_history`
@@ -915,7 +1062,7 @@ ALTER TABLE `tb_inv_history`
 --
 ALTER TABLE `tb_inv_komputer`
   ADD PRIMARY KEY (`id_komputer`),
-  ADD UNIQUE KEY `kode_komputer` (`kode_komputer`),
+  ADD UNIQUE KEY `kode_komputer` (`no_inventaris`),
   ADD UNIQUE KEY `serial_number_UNIQUE` (`serial_number`);
 
 --
@@ -923,14 +1070,14 @@ ALTER TABLE `tb_inv_komputer`
 --
 ALTER TABLE `tb_inv_laptop`
   ADD PRIMARY KEY (`id_laptop`),
-  ADD UNIQUE KEY `kode_laptop` (`kode_laptop`);
+  ADD UNIQUE KEY `kode_laptop` (`no_inventaris`);
 
 --
 -- Indexes for table `tb_inv_monitor`
 --
 ALTER TABLE `tb_inv_monitor`
   ADD PRIMARY KEY (`id_monitor`),
-  ADD UNIQUE KEY `kode_monitor` (`kode_monitor`);
+  ADD UNIQUE KEY `kode_monitor` (`no_inventaris`);
 
 --
 -- Indexes for table `tb_inv_network`
@@ -1004,8 +1151,7 @@ ALTER TABLE `tb_pelayanan`
 -- Indexes for table `tb_pengguna`
 --
 ALTER TABLE `tb_pengguna`
-  ADD PRIMARY KEY (`id_pengguna`,`nik`),
-  ADD UNIQUE KEY `nik_UNIQUE` (`nik`);
+  ADD PRIMARY KEY (`id_pengguna`);
 
 --
 -- Indexes for table `tb_provider`
@@ -1084,10 +1230,10 @@ ALTER TABLE `captcha`
   MODIFY `captcha_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=926;
 
 --
--- AUTO_INCREMENT for table `tb_cabang`
+-- AUTO_INCREMENT for table `tbl_inv_kode`
 --
-ALTER TABLE `tb_cabang`
-  MODIFY `id_cabang` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tbl_inv_kode`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_departemen`
@@ -1108,28 +1254,34 @@ ALTER TABLE `tb_internet`
   MODIFY `id_internet` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tb_inv_device`
+--
+ALTER TABLE `tb_inv_device`
+  MODIFY `id_device` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tb_inv_history`
 --
 ALTER TABLE `tb_inv_history`
-  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_history` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tb_inv_komputer`
 --
 ALTER TABLE `tb_inv_komputer`
-  MODIFY `id_komputer` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_komputer` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_inv_laptop`
 --
 ALTER TABLE `tb_inv_laptop`
-  MODIFY `id_laptop` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_laptop` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tb_inv_monitor`
 --
 ALTER TABLE `tb_inv_monitor`
-  MODIFY `id_monitor` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_monitor` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tb_inv_network`
@@ -1141,7 +1293,7 @@ ALTER TABLE `tb_inv_network`
 -- AUTO_INCREMENT for table `tb_inv_printer`
 --
 ALTER TABLE `tb_inv_printer`
-  MODIFY `id_printer` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_printer` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_jabatan`
@@ -1159,7 +1311,7 @@ ALTER TABLE `tb_kategori`
 -- AUTO_INCREMENT for table `tb_lisensi`
 --
 ALTER TABLE `tb_lisensi`
-  MODIFY `id_lisensi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_lisensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_maintenance_detail`
@@ -1171,7 +1323,7 @@ ALTER TABLE `tb_maintenance_detail`
 -- AUTO_INCREMENT for table `tb_manufacture`
 --
 ALTER TABLE `tb_manufacture`
-  MODIFY `id_manufacture` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_manufacture` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tb_menu`
@@ -1213,7 +1365,7 @@ ALTER TABLE `tb_status`
 -- AUTO_INCREMENT for table `tb_supplier`
 --
 ALTER TABLE `tb_supplier`
-  MODIFY `id_supplier` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_supplier` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_tipe`

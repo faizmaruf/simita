@@ -6,7 +6,7 @@ class Komputer extends CI_Controller {
         parent::__construct();
          // load helper Date
          $this->load->helper('date');
-        $this->load->model(array('m_komputer','m_laptop','m_masuk','m_maintenance'));
+        $this->load->model(array('m_komputer','m_laptop','m_masuk','m_maintenance','m_kode_inventory'));
         chek_session();
     }
 	public function index() {             
@@ -39,8 +39,7 @@ class Komputer extends CI_Controller {
 			}   
             $query[] = array(
                 'no'=>$no++,
-                'kode_komputer'=>$r->kode_komputer,
-                'aset_hrd'=>$r->aset_hrd,
+                'no_inventaris_komputer'=>$r->no_inventaris,
                 'nama_pengguna'=>$r->nama_pengguna, 
                 'dept'=>$deptnama, 
                 'subdept'=>$r->nama,         
@@ -64,8 +63,7 @@ class Komputer extends CI_Controller {
         if ($this->form_validation->run() == true) {
             $gid=$this->session->userdata('gid');           
             $data = array(
-                'kode_komputer' => $this->m_komputer->kdotomatis(),
-                'aset_hrd' => $this->input->post('aset_hrd'),
+                'no_inventaris' => $this->input->post('no_inventaris_komputer'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'nama_komputer' => $this->input->post('merek'),
                 'tipe' => $this->input->post('tipe'),
@@ -81,17 +79,30 @@ class Komputer extends CI_Controller {
                 'gid' => $gid
             );
             $data2=array(
-                'no_inventaris' => $this->m_komputer->kdotomatis(),
+                'no_inventaris' => $this->input->post('no_inventaris_komputer'),
 				'id_pengguna_awal' => $this->input->post('pengguna'),
                 'id_pengguna' => $this->input->post('pengguna'),
                 'tgl_update'=>date('Y-m-d H:i:s'),
                 'admin'=>$this->session->userdata('nama'),
                 'note'=>'Inventory Baru',
                 );
-            $this->m_laptop->simpan_history($data2);
+            // var_dump($data);
+            // var_dump($data2);
+            // die;
+
+            $user = $this->session->userdata('username');
+            $no_inventaris_komputer  = $this->input->post('no_inventaris_komputer');
             $this->m_komputer->simpan($data);
-            redirect('komputer');
-        } else {              
+            $this->m_laptop->simpan_history($data2);
+            $this->m_kode_inventory->updateTableInvKode($no_inventaris_komputer,'Komputer',$user);
+            $this->session->set_flashdata('result_tambah', '<br><div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Data komputer berhasil ditambah !</div>');
+
+            redirect('archived');
+        } else {    
+            $user = $this->session->userdata('username');
+            $data['no_inventaris_komputer'] = $this->m_kode_inventory->createNewCode('Komputer',mdate('%Y-%m-%d %H:%i:%s', now()),$user);                 
+            // var_dump($data['no_inventaris_komputer']);
+            // die;
             $data['pengguna'] = $this->m_komputer->getpenggunagid()->result();  
             $data['lisensi'] = $this->m_komputer->getlisensi()->result();  
             $data['merek'] = $this->m_komputer->getmerk()->result();   
@@ -197,8 +208,16 @@ class Komputer extends CI_Controller {
     }
 
     function detail() { 
-        $id = $this->uri->segment(3);                                           
+        $value = $this->uri->segment(3);
+        $param1 = $this->uri->segment(4);
+        $param2 = $this->uri->segment(5);
+        $bulan = $this->uri->segment(6);
+        $tahun = $this->uri->segment(7);
+        $strings = array($value,$param1,$param2,$bulan,$tahun); 
+        $id = implode('/', $strings);
         $data['recordall'] = $this->m_komputer->get_inv($id)->row_array();
+        // var_dump($data['recordall']);
+        // die;                                        
         $data['record'] = $this->m_komputer->getkode($id)->row_array();
         $data['service']=$this->m_laptop->get_service($id)->result();
         $data['history']=$this->m_laptop->get_history($id)->result();
@@ -254,17 +273,16 @@ class Komputer extends CI_Controller {
     function delete($kode) {
         if ($this->session->userdata('role')=='Administrator'){
             $this->m_komputer->hapus($kode); 
-            redirect('komputer'); 
+            redirect('archived'); 
         }else{
             $this->session->set_flashdata('result_hapus', '<br><p class="text-red">Maaf Anda tidak di ijinkan menghapus data ini !</p>');
-            redirect('komputer');
+            redirect('archived');
         }       
 		
     }
 
     function _set_rules() {
         $this->form_validation->set_rules('pengguna', 'Nama Pengguna', 'required');
-        $this->form_validation->set_rules('aset_hrd', 'Nomor Aset HRD', 'required');
         $this->form_validation->set_rules('merek', 'Merek/Brand', 'required');
         $this->form_validation->set_rules('spek', 'Spesifikasi', 'required');
         $this->form_validation->set_rules('sn', 'Serial Number', 'required');   

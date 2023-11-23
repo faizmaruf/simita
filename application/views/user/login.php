@@ -20,11 +20,11 @@
     <body class="login-page">
         <div class="login-box">
             <div class="login-logo">
-                <a href="#" ><b class="primary-color">SIMITA v.2.5</b></a><br>
-                <p class="italic" style="font-size:20px">SIstem Management IT Aset</p>
+                <a href="#" ><b class="primary-color">SIMITA</b></a><br>
+                <p class="italic" style="font-size:20px">SIstem Management IT Aset (RSHB)</p>
             </div><!-- /.login-logo -->
             <div class="login-box-body">
-                <p class="login-box-msg">Login Dengan User & Password </p>
+                <p class="login-box-msg">Login Dengan User & Password SIABSTRA </p>
                     <?php
                         echo form_open('login/auth');                       
                         if (validation_errors() || $this->session->flashdata('result_login')) {

@@ -28,7 +28,8 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Cabang</th>
+                                
+                                
                                 <th>Jenis Lisensi </th>  
                                 <th>Tanggal Pembelian</th>
                                 <th>Tanggal Habis</th>                                                      
@@ -41,13 +42,14 @@
 						   echo"
 							   <tr>
 							   <td>$no</td>
-							   <td>".$r->namacabang."</td>
+							   
+                               
 							   <td>".$r->jenis_lisensi."</td>	
                                <td>".$r->tgl_pembelian."</td>	
                                <td>".$r->tgl_habis."</td>							   
 							   <td>" . anchor('lisensi/detail/' . $r->id_lisensi, '<i class="btn btn-info btn-sm glyphicon glyphicon-list-alt" data-toggle="tooltip" title="Lihat Detail Data"></i>') . "
                                " . anchor('lisensi/edit/' . $r->id_lisensi, '<i class="btn btn-info btn-sm glyphicon glyphicon-edit" data-toggle="tooltip" title="Edit Data"></i>') . "
-							   " . anchor('lisensi/delete/' . $r->id_lisensi, '<i class="btn-sm btn-info glyphicon glyphicon-trash" data-toggle="tooltip" title="Hapus Data"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")) . "</td>
+							   " . anchor('lisensi/delete/' . $r->id_lisensi, '<i class="btn btn-sm btn-info glyphicon glyphicon-trash" data-toggle="tooltip" title="Hapus Data"></i>', array('onclick' => "return confirm('Data Akan di Hapus?')")) . "</td>
                                </tr>";
 						   $no++;
 					   }

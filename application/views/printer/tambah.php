@@ -59,11 +59,11 @@
                             <?php echo form_error('pengguna', '<div class="text-red">', '</div>'); ?>                           
                         </div>  
                         <div class="form-group">
-                            <label for="example">Nomor Aset HRD</label>
-                            <input type="text" autocomplete="off" id="asethrd" name="aset_hrd" class="form-control" required oninvalid="setCustomValidity('Nomor Aset Wajib Diisi !')"
-                                   oninput="setCustomValidity('')" placeholder="BITJ01/0/1/2/345/6" >
-                                   <?php echo form_error('aset_hrd', '<div class="text-red">', '</div>'); ?>
-                        </div>  
+                            <label for="example">No Inventaris</label>
+                            <input type="text" autocomplete="off" id="no_inventaris" name="no_inventaris" class="form-control " readonly required oninvalid="setCustomValidity('NoInventaris Wajib Diisi !')"
+                                   oninput="setCustomValidity('')" placeholder="<?php echo $no_inventaris ?>"  value="<?php echo $no_inventaris ?>"  >
+                                   <?php echo form_error('no_inventaris', '<div class="text-red">', '</div>'); ?>
+                        </div>   
                         <div class="form-group">
                             <label>Jenis Printer</label>
                             <select name="jenis" class="form-control " >

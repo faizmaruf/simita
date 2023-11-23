@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="<?php echo site_url('web'); ?> " class="logo">
+    <a href="<?php echo site_url('dashboard'); ?> " class="logo">
 		<span class="logo-mini"><b>IT</b>A</span>
 		<span class="logo-lg"><b>ITAsset</b> (SIMITA)</span>
 	</a>
@@ -7,12 +7,8 @@
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
         
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        
-            <span class="sr-only"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+        <a href="#" class="sidebar-toggle " data-toggle="offcanvas" role="button">
+            <i class="fa fa-bars"></i>
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">

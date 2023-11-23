@@ -35,7 +35,7 @@
                           <br>
                             <tr>
                               <td style="text-align:right ">No. Inventaris :</td>
-                              <td style="width:70%"><?php echo $recordall['kode_monitor'] ?></td>
+                              <td style="width:70%"><?php echo $recordall['no_inventaris'] ?></td>
                             </tr>
                             <tr>
                               <td style="text-align:right">Pengguna :</td>
@@ -77,8 +77,8 @@
                           <div class="box-body">
                             <div class="form-group">
                               <label for="example">No. Inventaris</label>
-                              <input type="hidden"  name="kode" value="<?php echo $record['kode_monitor'] ?>" >
-                              <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['kode_monitor']; ?>" >
+                              <input type="hidden"  name="kode" value="<?php echo $record['no_inventaris'] ?>" >
+                              <input type="text" name="no_inv" disabled class="form-control" id="inputError" value="<?php echo $record['no_inventaris']; ?>" >
                             </div>                                            
                             <div class="form-group">
                               <label>Pengguna</label>
@@ -156,7 +156,7 @@
                       </div>
                       <div class="tab-pane" id="tab_3">
                         <div class="col-md-10 "> 
-                        <h4>Maintenance [ <a><?php echo anchor('monitor/maintadd/'.$record['kode_monitor'],'Add New') ?></a> ]</h4>                           
+                        <h4>Maintenance [ <a><?php echo anchor('monitor/maintadd/'.$record['no_inventaris'],'Add New') ?></a> ]</h4>                           
                           <table class="table ">
                           <br>
                             <tr>
@@ -188,7 +188,7 @@
                       </div>
                       <div class="tab-pane" id="tab_4">
                         <div class="col-md-10 ">  
-                          <h4>History / Mutasi [ <a><?php echo anchor('monitor/history/'.$recordall['kode_monitor'],'Add New') ?></a> ]</h4>                         
+                          <h4>History / Mutasi [ <a><?php echo anchor('monitor/history/'.$recordall['no_inventaris'],'Add New') ?></a> ]</h4>                         
                           <table class="table ">
                           <br>
                             <tr>
